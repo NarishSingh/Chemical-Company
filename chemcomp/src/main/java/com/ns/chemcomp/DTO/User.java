@@ -13,6 +13,10 @@ public class User {
     @Size(max = 30, message = "Username cannot exceed 30 chars")
     private String username;
 
+    @NotBlank(message = "Every account must be secured with a password")
+    @Size(max = 50, message = "Password cannot exceed 50 char")
+    private String password;
+
     @Size(max = 50, message = "Name cannot exceed 50 chars")
     private String name;
 
@@ -82,16 +86,17 @@ public class User {
         if (!(o instanceof User)) return false;
         User user = (User) o;
         return getId() == user.getId() &&
-                Objects.equals(getUsername(), user.getUsername()) &&
+                getUsername().equals(user.getUsername()) &&
+                password.equals(user.password) &&
                 Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getPhone(), user.getPhone()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-                Objects.equals(getAddress(), user.getAddress());
+                getAddress().equals(user.getAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getName(), getPhone(), getEmail(), getAddress());
+        return Objects.hash(getId(), getUsername(), password, getName(), getPhone(), getEmail(), getAddress());
     }
 
     @Override

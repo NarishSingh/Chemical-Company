@@ -1,6 +1,7 @@
 package com.ns.chemcomp.DTO;
 
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
@@ -20,11 +21,11 @@ public class Product {
     @NotNull(message = "Product needs a unit cost")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price cannot be null")
     @Digits(integer = 4, fraction = 2, message = "Price must be well formed, and cannot exceed $9,999.99")
-    private double unitCost;
+    private BigDecimal unitCost;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price cannot be 0 if not null")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price cannot be $0 if not null")
     @Digits(integer = 4, fraction = 2, message = "Price must be well formed, and cannot exceed $9,999.99")
-    private double handlingCost;
+    private BigDecimal handlingCost;
 
     public int getId() {
         return id;
@@ -58,19 +59,19 @@ public class Product {
         this.measurement = measurement;
     }
 
-    public double getUnitCost() {
+    public BigDecimal getUnitCost() {
         return unitCost;
     }
 
-    public void setUnitCost(double unitCost) {
+    public void setUnitCost(BigDecimal unitCost) {
         this.unitCost = unitCost;
     }
 
-    public double getHandlingCost() {
+    public BigDecimal getHandlingCost() {
         return handlingCost;
     }
 
-    public void setHandlingCost(double handlingCost) {
+    public void setHandlingCost(BigDecimal handlingCost) {
         this.handlingCost = handlingCost;
     }
 
@@ -80,11 +81,11 @@ public class Product {
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
         return getId() == product.getId() &&
-                Double.compare(product.getUnitCost(), getUnitCost()) == 0 &&
-                Double.compare(product.getHandlingCost(), getHandlingCost()) == 0 &&
                 Objects.equals(getName(), product.getName()) &&
-                Objects.equals(getChemicalName(), product.getChemicalName()) &&
-                Objects.equals(getMeasurement(), product.getMeasurement());
+                getChemicalName().equals(product.getChemicalName()) &&
+                getMeasurement().equals(product.getMeasurement()) &&
+                getUnitCost().equals(product.getUnitCost()) &&
+                getHandlingCost().equals(product.getHandlingCost());
     }
 
     @Override

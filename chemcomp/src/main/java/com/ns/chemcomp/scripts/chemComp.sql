@@ -17,7 +17,7 @@ CREATE TABLE user
     name     VARCHAR(50),
     phone    CHAR(13),
     email    VARCHAR(50)        NOT NULL,
-    address  VARCHAR(50)
+    address VARCHAR(50) NOT NULL
 );
 
 -- bridge
