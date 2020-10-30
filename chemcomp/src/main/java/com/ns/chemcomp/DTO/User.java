@@ -1,10 +1,12 @@
 package com.ns.chemcomp.DTO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
+import java.util.Set;
 
 public class User {
     private int id;
@@ -16,6 +18,9 @@ public class User {
     @NotBlank(message = "Every account must be secured with a password")
     @Size(max = 50, message = "Password cannot exceed 50 char")
     private String password;
+
+    @NotNull(message = "Please indicate user status")
+    private boolean enabled;
 
     @Size(max = 50, message = "Name cannot exceed 50 chars")
     private String name;
@@ -32,6 +37,9 @@ public class User {
     @Size(max = 50, message = "Address cannot exceed 50 chars")
     private String Address;
 
+    @Valid
+    Set<Role> roles;
+
     public int getId() {
         return id;
     }
@@ -46,6 +54,22 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getName() {
@@ -80,23 +104,33 @@ public class User {
         Address = address;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
         return getId() == user.getId() &&
+                isEnabled() == user.isEnabled() &&
                 getUsername().equals(user.getUsername()) &&
-                password.equals(user.password) &&
+                getPassword().equals(user.getPassword()) &&
                 Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getPhone(), user.getPhone()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-                getAddress().equals(user.getAddress());
+                getAddress().equals(user.getAddress()) &&
+                getRoles().equals(user.getRoles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), password, getName(), getPhone(), getEmail(), getAddress());
+        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getRoles());
     }
 
     @Override
@@ -104,10 +138,13 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", Address='" + Address + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }

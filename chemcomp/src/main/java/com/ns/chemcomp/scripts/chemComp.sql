@@ -11,13 +11,15 @@ CREATE TABLE role
 
 CREATE TABLE user
 (
-    userId   INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50)        NOT NULL,
-    name     VARCHAR(50),
-    phone    CHAR(13),
-    email    VARCHAR(50)        NOT NULL,
-    address VARCHAR(50) NOT NULL
+    userId        INT PRIMARY KEY AUTO_INCREMENT,
+    username      VARCHAR(50) UNIQUE NOT NULL,
+    password      VARCHAR(50)        NOT NULL,
+    enabled       BIT                NOT NULL,
+    name          VARCHAR(50),
+    phone         CHAR(13),
+    email         VARCHAR(50)        NOT NULL,
+    address       VARCHAR(50)        NOT NULL,
+    photoFilename VARCHAR(255)
 );
 
 -- bridge
@@ -42,12 +44,13 @@ CREATE TABLE state
 
 CREATE TABLE product
 (
-    productId    INT PRIMARY KEY AUTO_INCREMENT,
-    name         VARCHAR(50),
-    chemicalName VARCHAR(50)   NOT NULL,
-    measurement  VARCHAR(15)   NOT NULL,
-    unitCost     DECIMAL(6, 2) NOT NULL,
-    handlingCost DECIMAL(6, 2) NOT NULL
+    productId     INT PRIMARY KEY AUTO_INCREMENT,
+    name          VARCHAR(50),
+    chemicalName  VARCHAR(50)   NOT NULL,
+    measurement   VARCHAR(15)   NOT NULL,
+    unitCost      DECIMAL(6, 2) NOT NULL,
+    handlingCost  DECIMAL(6, 2) NOT NULL,
+    photoFilename VARCHAR(255)
 );
 
 CREATE TABLE `order`
