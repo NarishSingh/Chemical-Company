@@ -59,12 +59,28 @@ public class RoleDaoDb implements RoleDao {
 
     @Override
     public Role updateRole(Role role) {
-        return null;
+        String updateQuery = "UPDATE role " +
+                "SET role = ? " +
+                "WHERE roleId = ?;";
+
+        if (jdbc.update(updateQuery, role.getRole(), role.getId()) == 1) {
+            return role;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean deleteRole(int id) {
-        return false;
+        //delete from bridge
+        String bridgeDel = "DELETE FROM userRole " +
+                "WHERE roleId = ?;";
+        jdbc.update(bridgeDel, id);
+
+        //delete role
+        String delQuery = "DELETE FROM role " +
+                "WHERE roleId = ?;";
+        return jdbc.update(delQuery, id) == 1;
     }
 
     /**
