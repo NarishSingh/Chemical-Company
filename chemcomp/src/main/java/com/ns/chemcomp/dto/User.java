@@ -1,4 +1,4 @@
-package com.ns.chemcomp.DTO;
+package com.ns.chemcomp.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -36,6 +36,9 @@ public class User {
     @NotNull(message = "Address required for ordering")
     @Size(max = 50, message = "Address cannot exceed 50 chars")
     private String Address;
+
+    @Size(max = 255, message = "Filename cannot exceed 255 chars")
+    private String photoFilename;
 
     @Valid
     Set<Role> roles;
@@ -104,6 +107,14 @@ public class User {
         Address = address;
     }
 
+    public String getPhotoFilename() {
+        return photoFilename;
+    }
+
+    public void setPhotoFilename(String photoFilename) {
+        this.photoFilename = photoFilename;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -123,14 +134,15 @@ public class User {
                 getPassword().equals(user.getPassword()) &&
                 Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getPhone(), user.getPhone()) &&
-                Objects.equals(getEmail(), user.getEmail()) &&
+                getEmail().equals(user.getEmail()) &&
                 getAddress().equals(user.getAddress()) &&
+                Objects.equals(getPhotoFilename(), user.getPhotoFilename()) &&
                 getRoles().equals(user.getRoles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getRoles());
+        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getPhotoFilename(), getRoles());
     }
 
     @Override
@@ -144,6 +156,7 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", Address='" + Address + '\'' +
+                ", photoFilename='" + photoFilename + '\'' +
                 ", roles=" + roles +
                 '}';
     }

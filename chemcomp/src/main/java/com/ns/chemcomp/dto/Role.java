@@ -1,4 +1,4 @@
-package com.ns.chemcomp.DTO;
+package com.ns.chemcomp.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

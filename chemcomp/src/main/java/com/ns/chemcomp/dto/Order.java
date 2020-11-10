@@ -1,4 +1,4 @@
-package com.ns.chemcomp.DTO;
+package com.ns.chemcomp.dto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;

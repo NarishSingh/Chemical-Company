@@ -63,12 +63,29 @@ CREATE TABLE `order`
     total     DECIMAL(8, 2) NOT NULL,
     -- fk's
     userId    INT           NOT NULL,
-    stateId   INT           NOT NULL,
-    productId INT           NOT NULL,
     CONSTRAINT `fk_user_order` FOREIGN KEY (userId)
-        REFERENCES user (userId),
-    CONSTRAINT `fk_state_order` FOREIGN KEY (stateId)
-        REFERENCES state (stateId),
-    CONSTRAINT `fk_product_order` FOREIGN KEY (productId)
+        REFERENCES user (userId)
+);
+
+-- bridge tables
+CREATE TABLE orderProduct
+(
+    orderId   INT NOT NULL,
+    productId INT NOT NULL,
+    PRIMARY KEY (orderId, productId),
+    CONSTRAINT `fk_order_orderProduct` FOREIGN KEY (orderId)
+        REFERENCES `order` (orderId),
+    CONSTRAINT `fk_product_orderProduct` FOREIGN KEY (productId)
         REFERENCES product (productId)
+);
+
+CREATE TABLE orderState
+(
+    orderId INT NOT NULL,
+    stateId INT NOT NULL,
+    PRIMARY KEY (orderId, stateId),
+    CONSTRAINT `fk_order_orderState` FOREIGN KEY (orderId)
+        REFERENCES `order` (orderId),
+    CONSTRAINT `fk_state_orderState` FOREIGN KEY (stateId)
+        REFERENCES state (stateId)
 );

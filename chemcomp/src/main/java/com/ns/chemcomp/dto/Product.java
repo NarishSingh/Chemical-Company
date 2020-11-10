@@ -1,4 +1,4 @@
-package com.ns.chemcomp.DTO;
+package com.ns.chemcomp.dto;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ public class Product {
     private String chemicalName;
 
     @NotBlank(message = "Unit of measure required for product")
-    @Size(max = 10, message = "Measurement abbreviation cannot exceed 10 chars")
+    @Size(max = 15, message = "Measurement abbreviation cannot exceed 15 chars")
     private String measurement;
 
     @NotNull(message = "Product needs a unit cost")
@@ -26,6 +26,9 @@ public class Product {
     @DecimalMin(value = "0.0", inclusive = false, message = "Price cannot be $0 if not null")
     @Digits(integer = 4, fraction = 2, message = "Price must be well formed, and cannot exceed $9,999.99")
     private BigDecimal handlingCost;
+
+    @Size(max = 255, message = "Filename cannot exceed 255 chars")
+    private String photoFilename;
 
     public int getId() {
         return id;
@@ -75,6 +78,14 @@ public class Product {
         this.handlingCost = handlingCost;
     }
 
+    public String getPhotoFilename() {
+        return photoFilename;
+    }
+
+    public void setPhotoFilename(String photoFilename) {
+        this.photoFilename = photoFilename;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,12 +96,13 @@ public class Product {
                 getChemicalName().equals(product.getChemicalName()) &&
                 getMeasurement().equals(product.getMeasurement()) &&
                 getUnitCost().equals(product.getUnitCost()) &&
-                getHandlingCost().equals(product.getHandlingCost());
+                getHandlingCost().equals(product.getHandlingCost()) &&
+                Objects.equals(getPhotoFilename(), product.getPhotoFilename());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getChemicalName(), getMeasurement(), getUnitCost(), getHandlingCost());
+        return Objects.hash(getId(), getName(), getChemicalName(), getMeasurement(), getUnitCost(), getHandlingCost(), getPhotoFilename());
     }
 
     @Override
@@ -102,6 +114,7 @@ public class Product {
                 ", measurement='" + measurement + '\'' +
                 ", unitCost=" + unitCost +
                 ", handlingCost=" + handlingCost +
+                ", photoFilename='" + photoFilename + '\'' +
                 '}';
     }
 }

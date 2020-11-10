@@ -1,4 +1,4 @@
-package com.ns.chemcomp.DTO;
+package com.ns.chemcomp.dto;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
