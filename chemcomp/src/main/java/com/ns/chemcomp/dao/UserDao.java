@@ -1,6 +1,6 @@
 package com.ns.chemcomp.dao;
 
-import com.ns.chemcomp.DTO.User;
+import com.ns.chemcomp.dto.User;
 
 public interface UserDao {
 
@@ -23,7 +23,7 @@ public interface UserDao {
     /**
      * Retrieve a User by username
      *
-     * @param username {String} an existing usename
+     * @param username {String} an existing username
      * @return {User} the obj from db, or null if failed
      */
     User readUserByUsername(String username);

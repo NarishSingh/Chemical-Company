@@ -1,8 +1,8 @@
 package com.ns.chemcomp.dao;
 
-import com.ns.chemcomp.DTO.Role;
-import com.ns.chemcomp.DTO.User;
 import com.ns.chemcomp.dao.RoleDaoDb.RoleMapper;
+import com.ns.chemcomp.dto.Role;
+import com.ns.chemcomp.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,8 +24,8 @@ public class UserDaoDb implements UserDao {
     @Override
     @Transactional
     public User createUser(User user) {
-        String insertQuery = "INSERT INTO chemcomp.user (username, password, enabled, name, phone, email, address) " +
-                "VALUES(?,?,?,?,?,?,?);";
+        String insertQuery = "INSERT INTO chemcomp.user (username, password, enabled, name, phone, email, address, photoFilename) " +
+                "VALUES(?,?,?,?,?,?,?,?);";
         jdbc.update(insertQuery,
                 user.getUsername(),
                 user.getPassword(),
@@ -33,7 +33,8 @@ public class UserDaoDb implements UserDao {
                 user.getName(),
                 user.getPhone(),
                 user.getEmail(),
-                user.getAddress());
+                user.getAddress(),
+                user.getPhotoFilename());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         user.setId(newId);
@@ -97,7 +98,8 @@ public class UserDaoDb implements UserDao {
                 "name = ?, " +
                 "phone = ?, " +
                 "email = ?, " +
-                "address = ? " +
+                "address = ?, " +
+                "photoFilename = ? " +
                 "WHERE userId = ?;";
         int updated = jdbc.update(updateQuery,
                 user.getUsername(),
@@ -107,6 +109,7 @@ public class UserDaoDb implements UserDao {
                 user.getPhone(),
                 user.getEmail(),
                 user.getAddress(),
+                user.getPhotoFilename(),
                 user.getId());
 
         if (updated == 1) {
@@ -133,12 +136,14 @@ public class UserDaoDb implements UserDao {
         jdbc.update(delUR, id);
 
         /*delete order*/
-        //bridge
-        //FIXME need to fix ddl's and dto's, I think order, state, product need bridge tables
-
-        //actual orders
+        String delOrder = "DELETE FROM chemcomp.order " +
+                "WHERE userId = ?;";
+        jdbc.update(delOrder, id);
 
         /*delete user*/
+        String deleteUser = "DELETE FROM chemcomp.user " +
+                "WHERE userId = ?;";
+        return jdbc.update(deleteUser, id) == 1;
     }
 
     /*Helpers*/
@@ -186,6 +191,7 @@ public class UserDaoDb implements UserDao {
             u.setPhone(rs.getString("phone"));
             u.setEmail(rs.getString("email"));
             u.setAddress(rs.getString("address"));
+            u.setPhotoFilename(rs.getString("photoFilename"));
 
             return u;
         }
