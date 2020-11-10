@@ -2,6 +2,8 @@ package com.ns.chemcomp.dao;
 
 import com.ns.chemcomp.dto.User;
 
+import java.util.List;
+
 public interface UserDao {
 
     /**
@@ -35,6 +37,13 @@ public interface UserDao {
      * @return {User} the obj from db, or null if failed
      */
     User readEnabledUserById(int id);
+
+    /**
+     * Read all Users from db
+     *
+     * @return {List} all obj's in db
+     */
+    List<User> readAllUsers();
 
     /**
      * Update a User in db

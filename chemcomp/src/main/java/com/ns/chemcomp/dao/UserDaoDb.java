@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -24,7 +25,7 @@ public class UserDaoDb implements UserDao {
     @Override
     @Transactional
     public User createUser(User user) {
-        String insertQuery = "INSERT INTO chemcomp.user (username, password, enabled, name, phone, email, address, photoFilename) " +
+        String insertQuery = "INSERT INTO chemComp.user (username, password, enabled, name, phone, email, address, photoFilename) " +
                 "VALUES(?,?,?,?,?,?,?,?);";
         jdbc.update(insertQuery,
                 user.getUsername(),
@@ -36,6 +37,7 @@ public class UserDaoDb implements UserDao {
                 user.getAddress(),
                 user.getPhotoFilename());
 
+        //grab id
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         user.setId(newId);
 
@@ -76,7 +78,7 @@ public class UserDaoDb implements UserDao {
     @Override
     public User readEnabledUserById(int id) {
         try {
-            String readQuery = "SELECT * FROM chemcomp.user " +
+            String readQuery = "SELECT * FROM chemComp.user " +
                     "WHERE userId = ? AND enabled != 0;";
             User user = jdbc.queryForObject(readQuery, new UserMapper(), id);
             associateUserRoles(user);
@@ -88,9 +90,15 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
+    public List<User> readAllUsers() {
+        String readAll = "SELECT * FROM user;";
+        return jdbc.query(readAll, new UserMapper());
+    }
+
+    @Override
     @Transactional
     public User updateUser(User user) {
-        String updateQuery = "UPDATE chemcomp.user " +
+        String updateQuery = "UPDATE chemComp.user " +
                 "SET " +
                 "username = ?, " +
                 "password = ?, " +
@@ -136,12 +144,12 @@ public class UserDaoDb implements UserDao {
         jdbc.update(delUR, id);
 
         /*delete order*/
-        String delOrder = "DELETE FROM chemcomp.order " +
+        String delOrder = "DELETE FROM chemComp.order " +
                 "WHERE userId = ?;";
         jdbc.update(delOrder, id);
 
         /*delete user*/
-        String deleteUser = "DELETE FROM chemcomp.user " +
+        String deleteUser = "DELETE FROM chemComp.user " +
                 "WHERE userId = ?;";
         return jdbc.update(deleteUser, id) == 1;
     }
