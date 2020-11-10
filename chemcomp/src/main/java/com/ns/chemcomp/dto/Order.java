@@ -14,10 +14,13 @@ public class Order {
     @NotNull(message = "Must log order date")
     private LocalDateTime orderDate;
 
-    @NotNull(message = "Must specify volume/mass/quantity of compound for order")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Can't order nothing")
-    @Digits(integer = 4, fraction = 2)
-    private BigDecimal quantity;
+    @NotNull(message = "Must specify quantity of order")
+    private int quantity;
+
+    @NotNull(message = "Must specify the mass or volume of the dry weight or container of chemical")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 3, fraction = 2)
+    private BigDecimal massVolume;
 
     @NotNull
     @DecimalMin(value = "0.0", inclusive = false)
@@ -59,11 +62,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public BigDecimal getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(BigDecimal quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -121,8 +124,8 @@ public class Order {
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
         return getId() == order.getId() &&
+                getQuantity() == order.getQuantity() &&
                 getOrderDate().equals(order.getOrderDate()) &&
-                getQuantity().equals(order.getQuantity()) &&
                 getNetPrice().equals(order.getNetPrice()) &&
                 getTax().equals(order.getTax()) &&
                 getTotal().equals(order.getTotal()) &&

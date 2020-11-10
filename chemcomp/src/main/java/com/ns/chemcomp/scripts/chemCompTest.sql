@@ -55,14 +55,15 @@ CREATE TABLE product
 
 CREATE TABLE `order`
 (
-    orderId   INT PRIMARY KEY AUTO_INCREMENT,
-    orderDate DATETIME      NOT NULL DEFAULT NOW(),
-    quantity  DECIMAL(6, 2) NOT NULL,
-    netPrice  DECIMAL(8, 2) NOT NULL, -- unit cost * quantity
-    tax       DECIMAL(8, 2) NOT NULL, -- state tax rate * net price
-    total     DECIMAL(8, 2) NOT NULL,
+    orderId    INT PRIMARY KEY AUTO_INCREMENT,
+    orderDate  DATETIME      NOT NULL DEFAULT NOW(),
+    quantity   INT           NOT NULL, -- # of containers
+    massVolume DECIMAL(5, 2) NOT NULL, -- mass of dry weight or volume of container
+    netPrice   DECIMAL(8, 2) NOT NULL, -- unit cost * quantity
+    tax        DECIMAL(8, 2) NOT NULL, -- state tax rate * net price
+    total      DECIMAL(8, 2) NOT NULL,
     -- fk's
-    userId    INT           NOT NULL,
+    userId     INT           NOT NULL,
     CONSTRAINT `fk_user_order` FOREIGN KEY (userId)
         REFERENCES user (userId)
 );
