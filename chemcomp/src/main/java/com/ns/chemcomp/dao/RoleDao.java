@@ -1,6 +1,6 @@
 package com.ns.chemcomp.dao;
 
-import com.ns.chemcomp.DTO.Role;
+import com.ns.chemcomp.dto.Role;
 
 import java.util.List;
 

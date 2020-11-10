@@ -1,6 +1,6 @@
 package com.ns.chemcomp.dao;
 
-import com.ns.chemcomp.DTO.Role;
+import com.ns.chemcomp.dto.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
