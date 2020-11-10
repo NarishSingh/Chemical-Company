@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,6 +72,7 @@ public class RoleDaoDb implements RoleDao {
     }
 
     @Override
+    @Transactional
     public boolean deleteRole(int id) {
         //delete from bridge
         String bridgeDel = "DELETE FROM userRole " +

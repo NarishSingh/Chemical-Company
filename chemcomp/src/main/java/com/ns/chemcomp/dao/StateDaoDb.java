@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,6 +75,7 @@ public class StateDaoDb implements StateDao {
     }
 
     @Override
+    @Transactional
     public State updateState(State state) {
         String updateQuery = "UPDATE chemComp.state " +
                 "SET " +
@@ -95,6 +97,7 @@ public class StateDaoDb implements StateDao {
     }
 
     @Override
+    @Transactional
     public boolean deleteState(int id) {
         //delete from bridge
         String delSO = "DELETE FROM chemComp.orderState " +
