@@ -3,16 +3,18 @@ package com.ns.chemcomp.dto;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Order {
     private int id;
 
     @NotNull(message = "Must log order date")
-    private LocalDateTime orderDate;
+    @FutureOrPresent(message = "Cannot order in the past")
+    private LocalDate orderDate;
 
     @NotNull(message = "Must specify quantity of order")
     private int quantity;
@@ -54,11 +56,11 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDateTime getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDateTime orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -68,6 +70,14 @@ public class Order {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public BigDecimal getMassVolume() {
+        return massVolume;
+    }
+
+    public void setMassVolume(BigDecimal massVolume) {
+        this.massVolume = massVolume;
     }
 
     public BigDecimal getNetPrice() {
@@ -126,6 +136,7 @@ public class Order {
         return getId() == order.getId() &&
                 getQuantity() == order.getQuantity() &&
                 getOrderDate().equals(order.getOrderDate()) &&
+                getMassVolume().equals(order.getMassVolume()) &&
                 getNetPrice().equals(order.getNetPrice()) &&
                 getTax().equals(order.getTax()) &&
                 getTotal().equals(order.getTotal()) &&
@@ -136,21 +147,6 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOrderDate(), getQuantity(), getNetPrice(), getTax(), getTotal(), getUser(), getState(), getProduct());
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", orderDate=" + orderDate +
-                ", quantity=" + quantity +
-                ", netPrice=" + netPrice +
-                ", tax=" + tax +
-                ", total=" + total +
-                ", user=" + user +
-                ", state=" + state +
-                ", product=" + product +
-                '}';
+        return Objects.hash(getId(), getOrderDate(), getQuantity(), getMassVolume(), getNetPrice(), getTax(), getTotal(), getUser(), getState(), getProduct());
     }
 }

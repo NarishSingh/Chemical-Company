@@ -56,11 +56,11 @@ CREATE TABLE product
 CREATE TABLE `order`
 (
     orderId    INT PRIMARY KEY AUTO_INCREMENT,
-    orderDate  DATETIME      NOT NULL DEFAULT NOW(),
-    quantity   INT           NOT NULL, -- # of containers
-    massVolume DECIMAL(5, 2) NOT NULL, -- mass of dry weight or volume of container
-    netPrice   DECIMAL(8, 2) NOT NULL, -- unit cost * quantity
-    tax        DECIMAL(8, 2) NOT NULL, -- state tax rate * net price
+    orderDate  DATE          NOT NULL,
+    quantity   INT           NOT NULL,
+    massVolume DECIMAL(5, 2) NOT NULL,
+    netPrice   DECIMAL(8, 2) NOT NULL,
+    tax        DECIMAL(8, 2) NOT NULL,
     total      DECIMAL(8, 2) NOT NULL,
     -- fk's
     userId     INT           NOT NULL,
