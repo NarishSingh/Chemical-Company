@@ -149,4 +149,20 @@ public class Order {
     public int hashCode() {
         return Objects.hash(getId(), getOrderDate(), getQuantity(), getMassVolume(), getNetPrice(), getTax(), getTotal(), getUser(), getState(), getProduct());
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", quantity=" + quantity +
+                ", massVolume=" + massVolume +
+                ", netPrice=" + netPrice +
+                ", tax=" + tax +
+                ", total=" + total +
+                ", user=" + user +
+                ", state=" + state +
+                ", product=" + product +
+                '}';
+    }
 }
