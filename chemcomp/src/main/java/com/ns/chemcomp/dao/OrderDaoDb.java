@@ -132,6 +132,7 @@ public class OrderDaoDb implements OrderDao {
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Order order) {
         String update = "UPDATE chemComp.order " +
                 "SET " +
@@ -154,6 +155,18 @@ public class OrderDaoDb implements OrderDao {
                 order.getId());
 
         if (updated == 1) {
+            //delete and reinsert to State bridge
+            String delOS = "DELETE FROM chemComp.orderState " +
+                    "WHERE orderId = ?;";
+            jdbc.update(delOS, order.getId());
+            insertOrderState(order);
+
+            //delete and reinsert to Product bridge
+            String delOP = "DELETE FROM chemComp.orderProduct " +
+                    "WHERE orderId = ?;";
+            jdbc.update(delOP, order.getId());
+            insertOrderProduct(order);
+
             return order;
         } else {
             return null;
@@ -161,12 +174,25 @@ public class OrderDaoDb implements OrderDao {
     }
 
     @Override
+    @Transactional
     public boolean deleteOrder(int id) {
+        //delete from State bridge
+        String delOS = "DELETE FROM chemComp.orderState " +
+                "WHERE orderId = ?;";
+        jdbc.update(delOS, id);
 
+        //delete from Product bridge
+        String delOP = "DELETE FROM chemComp.orderProduct " +
+                "WHERE orderId = ?;";
+        jdbc.update(delOP, id);
+
+        //delete Order itself
+        String deleteOrder = "DELETE FROM chemComp.order " +
+                "WHERE orderId = ?;";
+        return jdbc.update(deleteOrder, id) == 1;
     }
 
     /*HELPERS*/
-
     /**
      * Update the Order State bridge table
      *
@@ -245,7 +271,6 @@ public class OrderDaoDb implements OrderDao {
      * RowMapper impl
      */
     public static final class OrderMapper implements RowMapper<Order> {
-
         @Override
         public Order mapRow(ResultSet rs, int i) throws SQLException {
             Order o = new Order();
