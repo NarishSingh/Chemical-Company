@@ -27,7 +27,7 @@ public class OrderDaoDb implements OrderDao {
     @Override
     @Transactional
     public Order createOrder(Order order) {
-        String insert = "INSERT INTO chemComp.order (orderDate, quantity, massVolume, netPrice, tax, total, userId) " +
+        String insert = "INSERT INTO `order` (orderDate, quantity, massVolume, netPrice, tax, total, userId) " +
                 "VALUES(?,?,?,?,?,?,?);";
         jdbc.update(insert,
                 order.getOrderDate(),
@@ -52,7 +52,7 @@ public class OrderDaoDb implements OrderDao {
     @Override
     public Order readOrderById(int id) {
         try {
-            String read = "SELECT * FROM chemComp.order " +
+            String read = "SELECT * FROM `order` " +
                     "WHERE orderId = ?;";
             Order order = jdbc.queryForObject(read, new OrderMapper(), id);
             associateOrderUser(order);
@@ -67,7 +67,7 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readOrderByDate(LocalDate date) {
-        String readByDate = "SELECT * FROM chemComp.order " +
+        String readByDate = "SELECT * FROM `order` " +
                 "WHERE orderDate = ?;";
         List<Order> orders = jdbc.query(readByDate, new OrderMapper(), date);
         for (Order order : orders) {
@@ -81,8 +81,8 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readOrdersByProduct(Product product) {
-        String readByProduct = "SELECT o.* FROM chemComp.order o " +
-                "JOIN chemComp.orderProduct op ON op.orderId = o.orderId " +
+        String readByProduct = "SELECT o.* FROM `order` o " +
+                "JOIN orderProduct op ON op.orderId = o.orderId " +
                 "WHERE op.productId = ?;";
         List<Order> orders = jdbc.query(readByProduct, new OrderMapper(), product.getId());
         for (Order order : orders) {
@@ -96,8 +96,8 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readOrdersByUser(User user) {
-        String readByUser = "SELECT o.* FROM chemComp.order o " +
-                "JOIN chemComp.user u ON u.userId = o.userId " +
+        String readByUser = "SELECT o.* FROM `order` o " +
+                "JOIN user u ON u.userId = o.userId " +
                 "WHERE u.userId = ?;";
         List<Order> orders = jdbc.query(readByUser, new OrderMapper(), user.getId());
         for (Order order : orders) {
@@ -111,9 +111,9 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readOrdersByState(State state) {
-        String readByState = "SELECT o.* FROM chemComp.order o " +
-                "JOIN chemComp.orderState os ON os.orderId = o.orderId " +
-                "JOIN chemComp.state s ON s.stateId = os.stateId " +
+        String readByState = "SELECT o.* FROM `order` o " +
+                "JOIN orderState os ON os.orderId = o.orderId " +
+                "JOIN state s ON s.stateId = os.stateId " +
                 "WHERE s.stateId = ?;";
         List<Order> orders = jdbc.query(readByState, new OrderMapper(), state.getId());
         for (Order order : orders) {
@@ -127,14 +127,14 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readAllOrders() {
-        String readAll = "SELECT * FROM chemComp.order;";
+        String readAll = "SELECT * FROM `order`;";
         return jdbc.query(readAll, new OrderMapper());
     }
 
     @Override
     @Transactional
     public Order updateOrder(Order order) {
-        String update = "UPDATE chemComp.order " +
+        String update = "UPDATE `order` " +
                 "SET " +
                 "orderDate = ?, " +
                 "quantity = ?, " +
@@ -156,13 +156,13 @@ public class OrderDaoDb implements OrderDao {
 
         if (updated == 1) {
             //delete and reinsert to State bridge
-            String delOS = "DELETE FROM chemComp.orderState " +
+            String delOS = "DELETE FROM orderState " +
                     "WHERE orderId = ?;";
             jdbc.update(delOS, order.getId());
             insertOrderState(order);
 
             //delete and reinsert to Product bridge
-            String delOP = "DELETE FROM chemComp.orderProduct " +
+            String delOP = "DELETE FROM orderProduct " +
                     "WHERE orderId = ?;";
             jdbc.update(delOP, order.getId());
             insertOrderProduct(order);
@@ -177,17 +177,17 @@ public class OrderDaoDb implements OrderDao {
     @Transactional
     public boolean deleteOrder(int id) {
         //delete from State bridge
-        String delOS = "DELETE FROM chemComp.orderState " +
+        String delOS = "DELETE FROM orderState " +
                 "WHERE orderId = ?;";
         jdbc.update(delOS, id);
 
         //delete from Product bridge
-        String delOP = "DELETE FROM chemComp.orderProduct " +
+        String delOP = "DELETE FROM orderProduct " +
                 "WHERE orderId = ?;";
         jdbc.update(delOP, id);
 
         //delete Order itself
-        String deleteOrder = "DELETE FROM chemComp.order " +
+        String deleteOrder = "DELETE FROM `order` " +
                 "WHERE orderId = ?;";
         return jdbc.update(deleteOrder, id) == 1;
     }
@@ -199,7 +199,7 @@ public class OrderDaoDb implements OrderDao {
      * @param order {Order} well formed obj
      */
     private void insertOrderState(Order order) {
-        String insertBridge = "INSERT INTO chemComp.orderState (orderId, stateId) " +
+        String insertBridge = "INSERT INTO orderState (orderId, stateId) " +
                 "VALUES(?,?);";
         jdbc.update(insertBridge, order.getId(), order.getState().getId());
     }
@@ -210,7 +210,7 @@ public class OrderDaoDb implements OrderDao {
      * @param order {Order} well formed obj
      */
     private void insertOrderProduct(Order order) {
-        String insertBridge = "INSERT INTO chemComp.orderProduct (orderId, productId) " +
+        String insertBridge = "INSERT INTO orderProduct (orderId, productId) " +
                 "VALUES(?,?);";
         jdbc.update(insertBridge, order.getId(), order.getProduct().getId());
     }
@@ -223,14 +223,14 @@ public class OrderDaoDb implements OrderDao {
      */
     private void associateOrderUser(Order order) throws DataAccessException {
         //read User
-        String readUser = "SELECT u.* FROM chemComp.user u " +
-                "JOIN chemComp.order o ON o.userId = u.userId " +
+        String readUser = "SELECT u.* FROM user u " +
+                "JOIN `order` o ON o.userId = u.userId " +
                 "WHERE o.orderId = ?;";
         User u = jdbc.queryForObject(readUser, new UserMapper(), order.getId());
 
         //read and associate roles
-        String readRoles = "SELECT r.* FROM chemComp.role r " +
-                "JOIN chemComp.userRole ur ON ur.roleId = r.roleId " +
+        String readRoles = "SELECT r.* FROM role r " +
+                "JOIN userRole ur ON ur.roleId = r.roleId " +
                 "WHERE ur.userId = ?;";
         Set<Role> userRoles = new HashSet<>(jdbc.query(readRoles, new RoleMapper(), u.getId()));
 
@@ -244,8 +244,8 @@ public class OrderDaoDb implements OrderDao {
      * @throws DataAccessException if cannot retrieve State
      */
     private void associateOrderState(Order order) throws DataAccessException {
-        String readState = "SELECT s.* FROM chemComp.state s " +
-                "JOIN chemComp.orderState os ON os.stateId = s.stateId " +
+        String readState = "SELECT s.* FROM state s " +
+                "JOIN orderState os ON os.stateId = s.stateId " +
                 "WHERE os.orderId = ?;";
         State s = jdbc.queryForObject(readState, new StateMapper(), order.getId());
 
@@ -259,8 +259,8 @@ public class OrderDaoDb implements OrderDao {
      * @throws DataAccessException if cannot retrieve Product
      */
     private void associateOrderProduct(Order order) throws DataAccessException {
-        String readProduct = "SELECT p.* FROM chemComp.product p " +
-                "JOIN chemComp.orderProduct op ON op.productId = p.productId " +
+        String readProduct = "SELECT p.* FROM product p " +
+                "JOIN orderProduct op ON op.productId = p.productId " +
                 "WHERE op.orderId = ?;";
         Product p = jdbc.queryForObject(readProduct, new ProductDaoDb.ProductMapper(), order.getId());
 

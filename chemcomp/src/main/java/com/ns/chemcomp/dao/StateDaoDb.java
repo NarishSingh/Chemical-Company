@@ -20,7 +20,7 @@ public class StateDaoDb implements StateDao {
 
     @Override
     public State createState(State state) {
-        String insertQuery = "INSERT INTO chemComp.state (name, abbreviation, taxRate) " +
+        String insertQuery = "INSERT INTO state (name, abbreviation, taxRate) " +
                 "VALUES(?,?,?);";
         jdbc.update(insertQuery,
                 state.getName(),
@@ -37,7 +37,7 @@ public class StateDaoDb implements StateDao {
     @Override
     public State readStateById(int id) {
         try {
-            String readQuery = "SELECT * FROM chemComp.state " +
+            String readQuery = "SELECT * FROM state " +
                     "WHERE stateId = ?;";
             return jdbc.queryForObject(readQuery, new StateMapper(), id);
         } catch (DataAccessException e) {
@@ -49,7 +49,7 @@ public class StateDaoDb implements StateDao {
     @Override
     public State readStateByName(String stateName) {
         try {
-            String readQuery = "SELECT * FROM chemComp.state " +
+            String readQuery = "SELECT * FROM state " +
                     "WHERE name = ?;";
             return jdbc.queryForObject(readQuery, new StateMapper(), stateName);
         } catch (DataAccessException e) {
@@ -60,7 +60,7 @@ public class StateDaoDb implements StateDao {
     @Override
     public State readStateByAbbrev(String abbrev) {
         try {
-            String readQuery = "SELECT * FROM chemComp.state " +
+            String readQuery = "SELECT * FROM state " +
                     "WHERE abbreviation = ?;";
             return jdbc.queryForObject(readQuery, new StateMapper(), abbrev);
         } catch (DataAccessException e) {
@@ -70,14 +70,14 @@ public class StateDaoDb implements StateDao {
 
     @Override
     public List<State> readAllStates() {
-        String readAll = "SELECT * FROM chemComp.state;";
+        String readAll = "SELECT * FROM state;";
         return jdbc.query(readAll, new StateMapper());
     }
 
     @Override
     @Transactional
     public State updateState(State state) {
-        String updateQuery = "UPDATE chemComp.state " +
+        String updateQuery = "UPDATE state " +
                 "SET " +
                 "name = ?, " +
                 "abbreviation = ?, " +
@@ -100,12 +100,12 @@ public class StateDaoDb implements StateDao {
     @Transactional
     public boolean deleteState(int id) {
         //delete from bridge
-        String delSO = "DELETE FROM chemComp.orderState " +
+        String delSO = "DELETE FROM orderState " +
                 "WHERE stateId = ?;";
         jdbc.update(delSO, id);
 
         //delete State
-        String deleteState = "DELETE FROM chemComp.state " +
+        String deleteState = "DELETE FROM state " +
                 "WHERE stateId = ?;";
         return jdbc.update(deleteState, id) == 1;
     }

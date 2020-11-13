@@ -25,7 +25,7 @@ public class UserDaoDb implements UserDao {
     @Override
     @Transactional
     public User createUser(User user) {
-        String insertQuery = "INSERT INTO chemComp.user (username, password, enabled, name, phone, email, address, photoFilename) " +
+        String insertQuery = "INSERT INTO user (username, password, enabled, name, phone, email, address, photoFilename) " +
                 "VALUES(?,?,?,?,?,?,?,?);";
         jdbc.update(insertQuery,
                 user.getUsername(),
@@ -78,7 +78,7 @@ public class UserDaoDb implements UserDao {
     @Override
     public User readEnabledUserById(int id) {
         try {
-            String readQuery = "SELECT * FROM chemComp.user " +
+            String readQuery = "SELECT * FROM user " +
                     "WHERE userId = ? AND enabled != 0;";
             User user = jdbc.queryForObject(readQuery, new UserMapper(), id);
             associateUserRoles(user);
@@ -98,7 +98,7 @@ public class UserDaoDb implements UserDao {
     @Override
     @Transactional
     public User updateUser(User user) {
-        String updateQuery = "UPDATE chemComp.user " +
+        String updateQuery = "UPDATE user " +
                 "SET " +
                 "username = ?, " +
                 "password = ?, " +
@@ -144,12 +144,12 @@ public class UserDaoDb implements UserDao {
         jdbc.update(delUR, id);
 
         /*delete order*/
-        String delOrder = "DELETE FROM chemComp.order " +
+        String delOrder = "DELETE FROM order " +
                 "WHERE userId = ?;";
         jdbc.update(delOrder, id);
 
         /*delete user*/
-        String deleteUser = "DELETE FROM chemComp.user " +
+        String deleteUser = "DELETE FROM user " +
                 "WHERE userId = ?;";
         return jdbc.update(deleteUser, id) == 1;
     }

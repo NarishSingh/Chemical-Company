@@ -20,7 +20,7 @@ public class ProductDaoDb implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
-        String insert = "INSERT INTO chemComp.product (name, chemicalName, measurement, unitCost, handlingCost, photoFilename) " +
+        String insert = "INSERT INTO product (name, chemicalName, measurement, unitCost, handlingCost, photoFilename) " +
                 "VALUES(?,?,?,?,?,?);";
         jdbc.update(insert,
                 product.getName(),
@@ -40,7 +40,7 @@ public class ProductDaoDb implements ProductDao {
     @Override
     public Product readProductById(int id) {
         try {
-            String readId = "SELECT * FROM chemComp.product " +
+            String readId = "SELECT * FROM product " +
                     "WHERE productId = ?;";
             return jdbc.queryForObject(readId, new ProductMapper(), id);
         } catch (DataAccessException e) {
@@ -50,14 +50,14 @@ public class ProductDaoDb implements ProductDao {
 
     @Override
     public List<Product> readAllProducts() {
-        String readAll = "SELECT * FROM chemComp.product;";
+        String readAll = "SELECT * FROM product;";
         return jdbc.query(readAll, new ProductMapper());
     }
 
     @Override
     @Transactional
     public Product updateProduct(Product product) {
-        String update = "UPDATE chemComp.product " +
+        String update = "UPDATE product " +
                 "SET " +
                 "name = ?, " +
                 "chemicalName = ?, " +
@@ -86,12 +86,12 @@ public class ProductDaoDb implements ProductDao {
     @Transactional
     public boolean deleteProduct(int id) {
         //delete from bridge
-        String delPO = "DELETE FROM chemComp.orderProduct " +
+        String delPO = "DELETE FROM orderProduct " +
                 "WHERE productId = ?;";
         jdbc.update(delPO, id);
 
         //delete product
-        String deleteProduct = "DELETE FROM chemComp.product " +
+        String deleteProduct = "DELETE FROM product " +
                 "WHERE productId = ?;";
         return jdbc.update(deleteProduct, id) == 1;
     }
