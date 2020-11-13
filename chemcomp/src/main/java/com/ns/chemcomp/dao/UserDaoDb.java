@@ -76,23 +76,27 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
-    public User readEnabledUserById(int id) {
-        try {
-            String readQuery = "SELECT * FROM user " +
-                    "WHERE userId = ? AND enabled != 0;";
-            User user = jdbc.queryForObject(readQuery, new UserMapper(), id);
+    public List<User> readEnabledUsers() {
+        String readQuery = "SELECT * FROM user " +
+                "WHERE enabled != 0;";
+        List<User> enabledUsers = jdbc.query(readQuery, new UserMapper());
+        for (User user : enabledUsers) {
             associateUserRoles(user);
-
-            return user;
-        } catch (DataAccessException e) {
-            return null;
         }
+
+        return enabledUsers;
     }
 
     @Override
     public List<User> readAllUsers() {
         String readAll = "SELECT * FROM user;";
-        return jdbc.query(readAll, new UserMapper());
+        List<User> users = jdbc.query(readAll, new UserMapper());
+
+        for (User u : users) {
+            associateUserRoles(u);
+        }
+
+        return users;
     }
 
     @Override
@@ -144,7 +148,7 @@ public class UserDaoDb implements UserDao {
         jdbc.update(delUR, id);
 
         /*delete order*/
-        String delOrder = "DELETE FROM order " +
+        String delOrder = "DELETE FROM `order` " +
                 "WHERE userId = ?;";
         jdbc.update(delOrder, id);
 

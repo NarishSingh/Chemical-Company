@@ -31,12 +31,11 @@ public interface UserDao {
     User readUserByUsername(String username);
 
     /**
-     * Retrieve an enabled User account by id
+     * Retrieve an enabled User accounts
      *
-     * @param id {int} a valid id
-     * @return {User} the obj from db, or null if failed
+     * @return {List} objs from db, or null if failed
      */
-    User readEnabledUserById(int id);
+    List<User> readEnabledUsers();
 
     /**
      * Read all Users from db
