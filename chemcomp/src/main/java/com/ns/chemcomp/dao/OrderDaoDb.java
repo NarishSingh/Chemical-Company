@@ -67,37 +67,102 @@ public class OrderDaoDb implements OrderDao {
 
     @Override
     public List<Order> readOrderByDate(LocalDate date) {
-        return null;
+        String readByDate = "SELECT * FROM chemComp.order " +
+                "WHERE orderDate = ?;";
+        List<Order> orders = jdbc.query(readByDate, new OrderMapper(), date);
+        for (Order order : orders) {
+            associateOrderUser(order);
+            associateOrderState(order);
+            associateOrderProduct(order);
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> readOrdersByProduct(Product product) {
-        return null;
+        String readByProduct = "SELECT o.* FROM chemComp.order o " +
+                "JOIN chemComp.orderProduct op ON op.orderId = o.orderId " +
+                "WHERE op.productId = ?;";
+        List<Order> orders = jdbc.query(readByProduct, new OrderMapper(), product.getId());
+        for (Order order : orders) {
+            associateOrderUser(order);
+            associateOrderState(order);
+            associateOrderProduct(order);
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> readOrdersByUser(User user) {
-        return null;
+        String readByUser = "SELECT o.* FROM chemComp.order o " +
+                "JOIN chemComp.user u ON u.userId = o.userId " +
+                "WHERE u.userId = ?;";
+        List<Order> orders = jdbc.query(readByUser, new OrderMapper(), user.getId());
+        for (Order order : orders) {
+            associateOrderUser(order);
+            associateOrderState(order);
+            associateOrderProduct(order);
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> readOrdersByState(State state) {
-        return null;
+        String readByState = "SELECT o.* FROM chemComp.order o " +
+                "JOIN chemComp.orderState os ON os.orderId = o.orderId " +
+                "JOIN chemComp.state s ON s.stateId = os.stateId " +
+                "WHERE s.stateId = ?;";
+        List<Order> orders = jdbc.query(readByState, new OrderMapper(), state.getId());
+        for (Order order : orders) {
+            associateOrderUser(order);
+            associateOrderState(order);
+            associateOrderProduct(order);
+        }
+
+        return orders;
     }
 
     @Override
     public List<Order> readAllOrders() {
-        return null;
+        String readAll = "SELECT * FROM chemComp.order;";
+        return jdbc.query(readAll, new OrderMapper());
     }
 
     @Override
     public Order updateOrder(Order order) {
-        return null;
+        String update = "UPDATE chemComp.order " +
+                "SET " +
+                "orderDate = ?, " +
+                "quantity = ?, " +
+                "massVolume = ?, " +
+                "netPrice = ?, " +
+                "tax = ?, " +
+                "total = ?, " +
+                "userId = ? " +
+                "WHERE orderId = ?;";
+        int updated = jdbc.update(update,
+                order.getOrderDate(),
+                order.getQuantity(),
+                order.getMassVolume(),
+                order.getNetPrice(),
+                order.getTax(),
+                order.getTotal(),
+                order.getUser().getId(),
+                order.getId());
+
+        if (updated == 1) {
+            return order;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean deleteOrder(int id) {
-        return false;
+
     }
 
     /*HELPERS*/
