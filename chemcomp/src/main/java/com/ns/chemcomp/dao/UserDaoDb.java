@@ -148,6 +148,21 @@ public class UserDaoDb implements UserDao {
         jdbc.update(delUR, id);
 
         /*delete order*/
+        //delete from State bridge
+        String delOS = "DELETE FROM orderState " +
+                "WHERE orderId IN " +
+                "(SELECT orderId FROM `order` " +
+                "WHERE userId = ?);";
+        jdbc.update(delOS, id);
+
+        //delete from Product bridge
+        String delOP = "DELETE FROM orderProduct " +
+                "WHERE orderId IN " +
+                "(SELECT orderId FROM `order` " +
+                "WHERE userId = ?);";
+        jdbc.update(delOP, id);
+
+        //delete order
         String delOrder = "DELETE FROM `order` " +
                 "WHERE userId = ?;";
         jdbc.update(delOrder, id);
