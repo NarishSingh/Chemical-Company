@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,28 +37,28 @@ class ProductDaoTest {
         p1 = new Product();
         p1.setName("Denatured Alcohol 100%");
         p1.setChemicalName("Ethanol");
-        p1.setMassVolume(new BigDecimal("1.00"));
+        p1.setMassVolume(new BigDecimal("1.00").setScale(2, RoundingMode.HALF_UP));
         p1.setMeasurement("pt");
-        p1.setUnitCost(new BigDecimal("20.00"));
-        p1.setHandlingCost(new BigDecimal("0.05"));
+        p1.setUnitCost(new BigDecimal("20.00").setScale(2, RoundingMode.HALF_UP));
+        p1.setHandlingCost(new BigDecimal("0.05").setScale(2, RoundingMode.HALF_UP));
         p1.setPhotoFilename(null);
 
         p2 = new Product();
         p2.setName("Lye 50% Solution");
         p2.setChemicalName("Sodium Hydroxide (Aqueous)");
-        p2.setMassVolume(new BigDecimal("1.00"));
+        p2.setMassVolume(new BigDecimal("1.00").setScale(2, RoundingMode.HALF_UP));
         p2.setMeasurement("L");
-        p2.setUnitCost(new BigDecimal("26.00"));
-        p2.setHandlingCost(new BigDecimal("0.10"));
+        p2.setUnitCost(new BigDecimal("26.00").setScale(2, RoundingMode.HALF_UP));
+        p2.setHandlingCost(new BigDecimal("0.10").setScale(2, RoundingMode.HALF_UP));
         p2.setPhotoFilename(null);
 
         p3 = new Product();
         p3.setName("Glycerol Reagant");
         p3.setChemicalName("Glycerin");
-        p3.setMassVolume(new BigDecimal("30.00"));
+        p3.setMassVolume(new BigDecimal("30.00").setScale(2, RoundingMode.HALF_UP));
         p3.setMeasurement("mL");
-        p3.setUnitCost(new BigDecimal("5.00"));
-        p3.setHandlingCost(new BigDecimal("0.25"));
+        p3.setUnitCost(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
+        p3.setHandlingCost(new BigDecimal("0.25").setScale(2, RoundingMode.HALF_UP));
         p3.setPhotoFilename(null);
     }
 
