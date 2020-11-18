@@ -232,6 +232,8 @@ public class OrderDaoDb implements OrderDao {
         Set<Role> userRoles = new HashSet<>(jdbc.query(readRoles, new RoleMapper(), u.getId()));
 
         u.setRoles(userRoles);
+
+        order.setUser(u);
     }
 
     /**
