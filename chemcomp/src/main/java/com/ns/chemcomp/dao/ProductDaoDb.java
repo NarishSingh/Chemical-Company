@@ -20,11 +20,12 @@ public class ProductDaoDb implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
-        String insert = "INSERT INTO product (name, chemicalName, measurement, unitCost, handlingCost, photoFilename) " +
-                "VALUES(?,?,?,?,?,?);";
+        String insert = "INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename) " +
+                "VALUES(?,?,?,?,?,?,?);";
         jdbc.update(insert,
                 product.getName(),
                 product.getChemicalName(),
+                product.getMassVolume(),
                 product.getMeasurement(),
                 product.getUnitCost(),
                 product.getHandlingCost(),
@@ -61,6 +62,7 @@ public class ProductDaoDb implements ProductDao {
                 "SET " +
                 "name = ?, " +
                 "chemicalName = ?, " +
+                "massVolume = ?, " +
                 "measurement = ?, " +
                 "unitCost = ?, " +
                 "handlingCost = ?, " +
@@ -69,6 +71,7 @@ public class ProductDaoDb implements ProductDao {
         int updated = jdbc.update(update,
                 product.getName(),
                 product.getChemicalName(),
+                product.getMassVolume(),
                 product.getMeasurement(),
                 product.getUnitCost(),
                 product.getHandlingCost(),
@@ -107,6 +110,7 @@ public class ProductDaoDb implements ProductDao {
             p.setId(rs.getInt("productId"));
             p.setName(rs.getString("name"));
             p.setChemicalName(rs.getString("chemicalName"));
+            p.setMassVolume(rs.getBigDecimal("massVolume"));
             p.setMeasurement(rs.getString("measurement"));
             p.setUnitCost(rs.getBigDecimal("unitCost"));
             p.setHandlingCost(rs.getBigDecimal("handlingCost"));

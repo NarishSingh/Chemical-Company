@@ -27,12 +27,11 @@ public class OrderDaoDb implements OrderDao {
     @Override
     @Transactional
     public Order createOrder(Order order) {
-        String insert = "INSERT INTO `order` (orderDate, quantity, massVolume, netPrice, tax, total, userId) " +
-                "VALUES(?,?,?,?,?,?,?);";
+        String insert = "INSERT INTO `order` (orderDate, quantity, netPrice, tax, total, userId) " +
+                "VALUES(?,?,?,?,?,?);";
         jdbc.update(insert,
                 order.getOrderDate(),
                 order.getQuantity(),
-                order.getMassVolume(),
                 order.getNetPrice(),
                 order.getTax(),
                 order.getTotal(),
@@ -138,7 +137,6 @@ public class OrderDaoDb implements OrderDao {
                 "SET " +
                 "orderDate = ?, " +
                 "quantity = ?, " +
-                "massVolume = ?, " +
                 "netPrice = ?, " +
                 "tax = ?, " +
                 "total = ?, " +
@@ -147,7 +145,6 @@ public class OrderDaoDb implements OrderDao {
         int updated = jdbc.update(update,
                 order.getOrderDate(),
                 order.getQuantity(),
-                order.getMassVolume(),
                 order.getNetPrice(),
                 order.getTax(),
                 order.getTotal(),
@@ -277,7 +274,6 @@ public class OrderDaoDb implements OrderDao {
             o.setId(rs.getInt("orderId"));
             o.setOrderDate(rs.getDate("orderDate").toLocalDate());
             o.setQuantity(rs.getInt("quantity"));
-            o.setMassVolume(rs.getBigDecimal("massVolume"));
             o.setNetPrice(rs.getBigDecimal("netPrice"));
             o.setTax(rs.getBigDecimal("tax"));
             o.setTotal(rs.getBigDecimal("total"));

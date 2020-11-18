@@ -19,11 +19,6 @@ public class Order {
     @NotNull(message = "Must specify quantity of order")
     private int quantity;
 
-    @NotNull(message = "Must specify the mass or volume of the dry weight or container of chemical")
-    @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 3, fraction = 2)
-    private BigDecimal massVolume;
-
     @NotNull
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 6, fraction = 2)
@@ -70,14 +65,6 @@ public class Order {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public BigDecimal getMassVolume() {
-        return massVolume;
-    }
-
-    public void setMassVolume(BigDecimal massVolume) {
-        this.massVolume = massVolume;
     }
 
     public BigDecimal getNetPrice() {
@@ -136,7 +123,6 @@ public class Order {
         return getId() == order.getId() &&
                 getQuantity() == order.getQuantity() &&
                 getOrderDate().equals(order.getOrderDate()) &&
-                getMassVolume().equals(order.getMassVolume()) &&
                 getNetPrice().equals(order.getNetPrice()) &&
                 getTax().equals(order.getTax()) &&
                 getTotal().equals(order.getTotal()) &&
@@ -147,7 +133,8 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOrderDate(), getQuantity(), getMassVolume(), getNetPrice(), getTax(), getTotal(), getUser(), getState(), getProduct());
+        return Objects.hash(getId(), getOrderDate(), getQuantity(), getNetPrice(), getTax(), getTotal(), getUser(),
+                getState(), getProduct());
     }
 
     @Override
@@ -156,7 +143,6 @@ public class Order {
                 "id=" + id +
                 ", orderDate=" + orderDate +
                 ", quantity=" + quantity +
-                ", massVolume=" + massVolume +
                 ", netPrice=" + netPrice +
                 ", tax=" + tax +
                 ", total=" + total +

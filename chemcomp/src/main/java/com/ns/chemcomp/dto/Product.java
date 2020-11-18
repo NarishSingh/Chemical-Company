@@ -14,6 +14,11 @@ public class Product {
     @Size(max = 50, message = "Scientific name cannot exceed 50 chars")
     private String chemicalName;
 
+    @NotNull(message = "Must specify the mass or volume of the dry weight or container of chemical")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 3, fraction = 2)
+    private BigDecimal massVolume;
+
     @NotBlank(message = "Unit of measure required for product")
     @Size(max = 15, message = "Measurement abbreviation cannot exceed 15 chars")
     private String measurement;
@@ -52,6 +57,14 @@ public class Product {
 
     public void setChemicalName(String chemicalName) {
         this.chemicalName = chemicalName;
+    }
+
+    public BigDecimal getMassVolume() {
+        return massVolume;
+    }
+
+    public void setMassVolume(BigDecimal massVolume) {
+        this.massVolume = massVolume;
     }
 
     public String getMeasurement() {
@@ -94,6 +107,7 @@ public class Product {
         return getId() == product.getId() &&
                 Objects.equals(getName(), product.getName()) &&
                 getChemicalName().equals(product.getChemicalName()) &&
+                getMassVolume().equals(product.getMassVolume()) &&
                 getMeasurement().equals(product.getMeasurement()) &&
                 getUnitCost().equals(product.getUnitCost()) &&
                 getHandlingCost().equals(product.getHandlingCost()) &&
@@ -102,7 +116,8 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getChemicalName(), getMeasurement(), getUnitCost(), getHandlingCost(), getPhotoFilename());
+        return Objects.hash(getId(), getName(), getChemicalName(), getMassVolume(), getMeasurement(), getUnitCost(),
+                getHandlingCost(), getPhotoFilename());
     }
 
     @Override
@@ -111,6 +126,7 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", chemicalName='" + chemicalName + '\'' +
+                ", massVolume=" + massVolume +
                 ", measurement='" + measurement + '\'' +
                 ", unitCost=" + unitCost +
                 ", handlingCost=" + handlingCost +

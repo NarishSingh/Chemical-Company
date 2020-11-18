@@ -36,6 +36,7 @@ class ProductDaoTest {
         p1 = new Product();
         p1.setName("Denatured Alcohol 100%");
         p1.setChemicalName("Ethanol");
+        p1.setMassVolume(new BigDecimal("1.00"));
         p1.setMeasurement("pt");
         p1.setUnitCost(new BigDecimal("20.00"));
         p1.setHandlingCost(new BigDecimal("0.05"));
@@ -43,7 +44,8 @@ class ProductDaoTest {
 
         p2 = new Product();
         p2.setName("Lye 50% Solution");
-        p2.setChemicalName("Sodium Hydroxide");
+        p2.setChemicalName("Sodium Hydroxide (Aqueous)");
+        p2.setMassVolume(new BigDecimal("1.00"));
         p2.setMeasurement("L");
         p2.setUnitCost(new BigDecimal("26.00"));
         p2.setHandlingCost(new BigDecimal("0.10"));
@@ -52,8 +54,9 @@ class ProductDaoTest {
         p3 = new Product();
         p3.setName("Glycerol Reagant");
         p3.setChemicalName("Glycerin");
-        p3.setMeasurement("L");
-        p3.setUnitCost(new BigDecimal("12.50"));
+        p3.setMassVolume(new BigDecimal("30.00"));
+        p3.setMeasurement("mL");
+        p3.setUnitCost(new BigDecimal("5.00"));
         p3.setHandlingCost(new BigDecimal("0.25"));
         p3.setPhotoFilename(null);
     }
