@@ -152,6 +152,24 @@ class UserDaoTest {
     }
 
     @Test
+    void readEnabledUserByUsername() {
+        User admin = uDao.createUser(adm);
+        User user1 = uDao.createUser(u1);
+        User user2 = uDao.createUser(u2);
+
+        User enAdm = uDao.readEnabledUserByUsername(admin.getUsername());
+        User enU1 = uDao.readEnabledUserByUsername(user1.getUsername());
+        User disabled = uDao.readEnabledUserByUsername(user2.getUsername());
+
+        assertNotNull(enAdm);
+        assertNotNull(enU1);
+        assertNull(disabled);
+        assertEquals(admin, enAdm);
+        assertEquals(user1, enU1);
+        assertNotEquals(user2, disabled);
+    }
+
+    @Test
     void readAllUsers() {
         User admin = uDao.createUser(adm);
         User user1 = uDao.createUser(u1);

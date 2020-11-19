@@ -26,9 +26,17 @@ public interface UserDao {
      * Retrieve a User by username
      *
      * @param username {String} an existing username
-     * @return {User} the obj from db, or null if failed
+     * @return {User} obj from db, or null if failed
      */
     User readUserByUsername(String username);
+
+    /**
+     * Retrieve a enabled User by username
+     *
+     * @param username {String} an existing username
+     * @return {User} obj from db, or null if failed
+     */
+    User readEnabledUserByUsername(String username);
 
     /**
      * Retrieve an enabled User accounts

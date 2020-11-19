@@ -76,6 +76,20 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
+    public User readEnabledUserByUsername(String username) {
+        try {
+            String readQuery = "SELECT * FROM user " +
+                    "WHERE username = ? AND enabled != 0;";
+            User activeUser = jdbc.queryForObject(readQuery, new UserMapper(), username);
+            associateUserRoles(activeUser);
+
+            return activeUser;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<User> readEnabledUsers() {
         String readQuery = "SELECT * FROM user " +
                 "WHERE enabled != 0;";
