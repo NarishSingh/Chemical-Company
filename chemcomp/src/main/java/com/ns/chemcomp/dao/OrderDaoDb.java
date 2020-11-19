@@ -127,7 +127,15 @@ public class OrderDaoDb implements OrderDao {
     @Override
     public List<Order> readAllOrders() {
         String readAll = "SELECT * FROM `order`;";
-        return jdbc.query(readAll, new OrderMapper());
+        List<Order> orders = jdbc.query(readAll, new OrderMapper());
+
+        for (Order o : orders) {
+            associateOrderState(o);
+            associateOrderProduct(o);
+            associateOrderUser(o);
+        }
+
+        return orders;
     }
 
     @Override
@@ -190,6 +198,7 @@ public class OrderDaoDb implements OrderDao {
     }
 
     /*HELPERS*/
+
     /**
      * Update the Order State bridge table
      *
@@ -230,7 +239,6 @@ public class OrderDaoDb implements OrderDao {
                 "JOIN userRole ur ON ur.roleId = r.roleId " +
                 "WHERE ur.userId = ?;";
         Set<Role> userRoles = new HashSet<>(jdbc.query(readRoles, new RoleMapper(), u.getId()));
-
         u.setRoles(userRoles);
 
         order.setUser(u);
