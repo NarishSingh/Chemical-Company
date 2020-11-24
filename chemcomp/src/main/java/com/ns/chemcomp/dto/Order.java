@@ -43,6 +43,37 @@ public class Order {
     @Valid
     Product product;
 
+    /*CTORS*/
+    public Order() {
+
+    } //d.ctor
+
+    public Order(@NotNull(message = "Must log order date") @FutureOrPresent(message = "Cannot order in the past") LocalDate orderDate,
+                 @NotNull(message = "Must specify quantity of order") int quantity, @Valid User user, @Valid State state,
+                 @Valid Product product) {
+        this.orderDate = orderDate;
+        this.quantity = quantity;
+        this.user = user;
+        this.state = state;
+        this.product = product;
+    } //order request
+
+    public Order(@NotNull(message = "Must log order date") @FutureOrPresent(message = "Cannot order in the past") LocalDate orderDate,
+                 @NotNull(message = "Must specify quantity of order") int quantity,
+                 @NotNull @DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 6, fraction = 2) BigDecimal netPrice,
+                 @NotNull @DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 6, fraction = 2) BigDecimal tax,
+                 @NotNull @DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 6, fraction = 2) BigDecimal total,
+                 @Valid User user, @Valid State state, @Valid Product product) {
+        this.orderDate = orderDate;
+        this.quantity = quantity;
+        this.netPrice = netPrice;
+        this.tax = tax;
+        this.total = total;
+        this.user = user;
+        this.state = state;
+        this.product = product;
+    } //validated order, no id as must come from db
+
     public int getId() {
         return id;
     }

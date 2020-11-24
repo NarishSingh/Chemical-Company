@@ -234,7 +234,7 @@ public class OrderDaoDb implements OrderDao {
                 "WHERE o.orderId = ?;";
         User u = jdbc.queryForObject(readUser, new UserMapper(), order.getId());
 
-        //read and associate roles
+        //read and associate roles for user
         String readRoles = "SELECT r.* FROM role r " +
                 "JOIN userRole ur ON ur.roleId = r.roleId " +
                 "WHERE ur.userId = ?;";
@@ -287,7 +287,7 @@ public class OrderDaoDb implements OrderDao {
             o.setNetPrice(rs.getBigDecimal("netPrice"));
             o.setTax(rs.getBigDecimal("tax"));
             o.setTotal(rs.getBigDecimal("total"));
-            //User, State, Product are read with helper methods
+            //User, State, Product are associated with helper methods
 
             return o;
         }
