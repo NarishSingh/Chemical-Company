@@ -33,32 +33,36 @@ public interface OrderService {
      *
      * @param date {LocalDate} a date
      * @return {List} objs from db, null if read fails
+     * @throws NoOrdersOnDateException if list returns null
      */
-    List<Order> readOrderByDate(LocalDate date);
+    List<Order> readOrdersByDate(LocalDate date) throws NoOrdersOnDateException;
 
     /**
      * Read Orders from db by Product
      *
      * @param product {Product} well formed obj
      * @return {List} objs from db, null if read fails
+     * @throws NoOrdersForProduct if list returns null
      */
-    List<Order> readOrdersByProduct(Product product);
+    List<Order> readOrdersByProduct(Product product) throws NoOrdersForProduct;
 
     /**
      * Read Orders from db by User
      *
      * @param user {User} well formed obj
      * @return {List} objs from db, null if read fails
+     * @throws NoOrdersForUser if list returns null
      */
-    List<Order> readOrdersByUser(User user);
+    List<Order> readOrdersByUser(User user) throws NoOrdersForUser;
 
     /**
      * Read Orders from db by State
      *
      * @param state {State} well formed obj
      * @return {List} objs from db, null if read fails
+     * @throws NoOrdersInState if list returns null
      */
-    List<Order> readOrdersByState(State state);
+    List<Order> readOrdersByState(State state) throws NoOrdersInState;
 
     /**
      * Read all Orders from db

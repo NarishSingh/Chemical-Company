@@ -33,23 +33,47 @@ public class OrderServiceDb implements OrderService {
     }
 
     @Override
-    public List<Order> readOrderByDate(LocalDate date) {
-        return oDao.readOrderByDate(date);
+    public List<Order> readOrdersByDate(LocalDate date) throws NoOrdersOnDateException {
+        List<Order> datedOrders = oDao.readOrderByDate(date);
+
+        if (datedOrders != null) {
+            return datedOrders;
+        } else {
+            throw new NoOrdersOnDateException("No orders on this date");
+        }
     }
 
     @Override
-    public List<Order> readOrdersByProduct(Product product) {
-        return oDao.readOrdersByProduct(product);
+    public List<Order> readOrdersByProduct(Product product) throws NoOrdersForProduct {
+        List<Order> ordersForProduct = oDao.readOrdersByProduct(product);
+
+        if (ordersForProduct != null) {
+            return ordersForProduct;
+        } else {
+            throw new NoOrdersForProduct("No orders for this product placed yet");
+        }
     }
 
     @Override
-    public List<Order> readOrdersByUser(User user) {
-        return oDao.readOrdersByUser(user);
+    public List<Order> readOrdersByUser(User user) throws NoOrdersForUser {
+        List<Order> userOrders = oDao.readOrdersByUser(user);
+
+        if (userOrders != null) {
+            return userOrders;
+        } else {
+            throw new NoOrdersForUser("User hasn't ordered anything yet");
+        }
     }
 
     @Override
-    public List<Order> readOrdersByState(State state) {
-        return oDao.readOrdersByState(state);
+    public List<Order> readOrdersByState(State state) throws NoOrdersInState {
+        List<Order> ordersForState = oDao.readOrdersByState(state);
+
+        if (ordersForState != null) {
+            return ordersForState;
+        } else {
+            throw new NoOrdersInState("No orders placed in this state");
+        }
     }
 
     @Override
@@ -77,7 +101,7 @@ public class OrderServiceDb implements OrderService {
      * @param orderRequest {Order} a new Order request
      * @return {Order} a validated Order obj
      */
-    public Order calculateCosts(Order orderRequest) {
+    private Order calculateCosts(Order orderRequest) {
         //net price = order.quantity * product.unitCost + product.handlingCost
         BigDecimal netPrice = new BigDecimal(String.valueOf(orderRequest.getQuantity()))
                 .multiply(orderRequest.getProduct().getUnitCost())
