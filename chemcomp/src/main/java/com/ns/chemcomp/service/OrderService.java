@@ -24,7 +24,7 @@ public interface OrderService {
      *
      * @param id {int} a valid id
      * @return {Order} obj from db, null if read fails
-     * @throws DataAccessException if read from db fails
+     * @throws DataAccessException if read from db fails, will return null
      */
     Order readOrderById(int id) throws DataAccessException;
 
@@ -42,27 +42,27 @@ public interface OrderService {
      *
      * @param product {Product} well formed obj
      * @return {List} objs from db, null if read fails
-     * @throws NoOrdersForProduct if list returns null
+     * @throws NoOrdersForProductException if list returns null
      */
-    List<Order> readOrdersByProduct(Product product) throws NoOrdersForProduct;
+    List<Order> readOrdersByProduct(Product product) throws NoOrdersForProductException;
 
     /**
      * Read Orders from db by User
      *
      * @param user {User} well formed obj
      * @return {List} objs from db, null if read fails
-     * @throws NoOrdersForUser if list returns null
+     * @throws NoOrdersForUserException if list returns null
      */
-    List<Order> readOrdersByUser(User user) throws NoOrdersForUser;
+    List<Order> readOrdersByUser(User user) throws NoOrdersForUserException;
 
     /**
      * Read Orders from db by State
      *
      * @param state {State} well formed obj
      * @return {List} objs from db, null if read fails
-     * @throws NoOrdersInState if list returns null
+     * @throws NoOrdersInStateException if list returns null
      */
-    List<Order> readOrdersByState(State state) throws NoOrdersInState;
+    List<Order> readOrdersByState(State state) throws NoOrdersInStateException;
 
     /**
      * Read all Orders from db

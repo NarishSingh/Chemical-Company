@@ -36,7 +36,7 @@ public class OrderServiceDb implements OrderService {
     public List<Order> readOrdersByDate(LocalDate date) throws NoOrdersOnDateException {
         List<Order> datedOrders = oDao.readOrderByDate(date);
 
-        if (datedOrders != null) {
+        if (!datedOrders.isEmpty()) {
             return datedOrders;
         } else {
             throw new NoOrdersOnDateException("No orders on this date");
@@ -44,35 +44,35 @@ public class OrderServiceDb implements OrderService {
     }
 
     @Override
-    public List<Order> readOrdersByProduct(Product product) throws NoOrdersForProduct {
+    public List<Order> readOrdersByProduct(Product product) throws NoOrdersForProductException {
         List<Order> ordersForProduct = oDao.readOrdersByProduct(product);
 
-        if (ordersForProduct != null) {
+        if (!ordersForProduct.isEmpty()) {
             return ordersForProduct;
         } else {
-            throw new NoOrdersForProduct("No orders for this product placed yet");
+            throw new NoOrdersForProductException("No orders for this product placed yet");
         }
     }
 
     @Override
-    public List<Order> readOrdersByUser(User user) throws NoOrdersForUser {
+    public List<Order> readOrdersByUser(User user) throws NoOrdersForUserException {
         List<Order> userOrders = oDao.readOrdersByUser(user);
 
-        if (userOrders != null) {
+        if (!userOrders.isEmpty()) {
             return userOrders;
         } else {
-            throw new NoOrdersForUser("User hasn't ordered anything yet");
+            throw new NoOrdersForUserException("User hasn't ordered anything yet");
         }
     }
 
     @Override
-    public List<Order> readOrdersByState(State state) throws NoOrdersInState {
+    public List<Order> readOrdersByState(State state) throws NoOrdersInStateException {
         List<Order> ordersForState = oDao.readOrdersByState(state);
 
-        if (ordersForState != null) {
+        if (!ordersForState.isEmpty()) {
             return ordersForState;
         } else {
-            throw new NoOrdersInState("No orders placed in this state");
+            throw new NoOrdersInStateException("No orders placed in this state");
         }
     }
 
@@ -108,8 +108,8 @@ public class OrderServiceDb implements OrderService {
                 .add(orderRequest.getProduct().getHandlingCost())
                 .setScale(2, RoundingMode.HALF_UP);
 
-        //tax = state.taxRate * netPrice
-        BigDecimal tax = orderRequest.getState().getTaxRate()
+        //tax = state.taxRate/100 * netPrice
+        BigDecimal tax = orderRequest.getState().getTaxRate().divide(new BigDecimal("100"), RoundingMode.HALF_UP)
                 .multiply(netPrice)
                 .setScale(2, RoundingMode.HALF_UP);
 
