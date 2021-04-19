@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
-    private int id;
+    private int productId;
 
     @Size(max = 50, message = "Common name must not exceed 50 char")
     private String name;
@@ -35,12 +35,12 @@ public class Product {
     @Size(max = 255, message = "Filename cannot exceed 255 chars")
     private String photoFilename;
 
-    public int getId() {
-        return id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -104,7 +104,7 @@ public class Product {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return getId() == product.getId() &&
+        return getProductId() == product.getProductId() &&
                 Objects.equals(getName(), product.getName()) &&
                 getChemicalName().equals(product.getChemicalName()) &&
                 getMassVolume().equals(product.getMassVolume()) &&
@@ -116,14 +116,14 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getChemicalName(), getMassVolume(), getMeasurement(), getUnitCost(),
+        return Objects.hash(getProductId(), getName(), getChemicalName(), getMassVolume(), getMeasurement(), getUnitCost(),
                 getHandlingCost(), getPhotoFilename());
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
+                "id=" + productId +
                 ", name='" + name + '\'' +
                 ", chemicalName='" + chemicalName + '\'' +
                 ", massVolume=" + massVolume +

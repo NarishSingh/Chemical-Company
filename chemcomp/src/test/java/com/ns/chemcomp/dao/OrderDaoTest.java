@@ -57,23 +57,23 @@ class OrderDaoTest {
     void setUp() {
         /*clean db*/
         for (Role r : rDao.readAllRoles()) {
-            rDao.deleteRole(r.getId());
+            rDao.deleteRole(r.getRoleId());
         }
 
         for (User u : uDao.readAllUsers()) {
-            uDao.deleteUser(u.getId());
+            uDao.deleteUser(u.getUserId());
         }
 
         for (State s : sDao.readAllStates()) {
-            sDao.deleteState(s.getId());
+            sDao.deleteState(s.getStateId());
         }
 
         for (Product p : pDao.readAllProducts()) {
-            pDao.deleteProduct(p.getId());
+            pDao.deleteProduct(p.getProductId());
         }
 
         for (Order o : oDao.readAllOrders()) {
-            oDao.deleteOrder(o.getId());
+            oDao.deleteOrder(o.getOrderId());
         }
 
         /*Create dependent obj's*/
@@ -238,10 +238,10 @@ class OrderDaoTest {
         Order order3 = oDao.createOrder(o3);
         Order order4 = oDao.createOrder(o4);
 
-        Order dao1 = oDao.readOrderById(order1.getId());
-        Order dao2 = oDao.readOrderById(order2.getId());
-        Order dao3 = oDao.readOrderById(order3.getId());
-        Order dao4 = oDao.readOrderById(order4.getId());
+        Order dao1 = oDao.readOrderById(order1.getOrderId());
+        Order dao2 = oDao.readOrderById(order2.getOrderId());
+        Order dao3 = oDao.readOrderById(order3.getOrderId());
+        Order dao4 = oDao.readOrderById(order4.getOrderId());
 
         assertNotNull(order1);
         assertNotNull(order2);
@@ -368,7 +368,7 @@ class OrderDaoTest {
     @Test
     void updateOrder() {
         Order order1 = oDao.createOrder(o1);
-        Order original = oDao.readOrderById(order1.getId());
+        Order original = oDao.readOrderById(order1.getOrderId());
 
         order1.setQuantity(50);
         order1.setNetPrice(new BigDecimal(50).multiply(alcohol.getUnitCost()).setScale(2, RoundingMode.HALF_UP));
@@ -390,7 +390,7 @@ class OrderDaoTest {
         Order order4 = oDao.createOrder(o4);
         List<Order> original = oDao.readAllOrders();
 
-        boolean deleted = oDao.deleteOrder(order4.getId());
+        boolean deleted = oDao.deleteOrder(order4.getOrderId());
         List<Order> afterDel = oDao.readAllOrders();
 
         assertNotNull(original);

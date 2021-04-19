@@ -5,18 +5,18 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Role {
-    private int id;
+    private int roleId;
 
     @NotNull
     @Size(max = 30, message = "Role name must not exceed 30 characters")
     private String role;
 
-    public int getId() {
-        return id;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getRole() {
@@ -32,19 +32,19 @@ public class Role {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role1 = (Role) o;
-        return getId() == role1.getId() &&
+        return getRoleId() == role1.getRoleId() &&
                 getRole().equals(role1.getRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRole());
+        return Objects.hash(getRoleId(), getRole());
     }
 
     @Override
     public String toString() {
         return "Role{" +
-                "id=" + id +
+                "id=" + roleId +
                 ", role='" + role + '\'' +
                 '}';
     }

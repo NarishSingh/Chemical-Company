@@ -29,7 +29,7 @@ class StateDaoTest {
     void setUp() {
         /*clean db*/
         for (State s : sDao.readAllStates()) {
-            sDao.deleteState(s.getId());
+            sDao.deleteState(s.getStateId());
         }
 
         /*setup States*/
@@ -59,9 +59,9 @@ class StateDaoTest {
         State state2 = sDao.createState(s2);
         State state3 = sDao.createState(s3);
 
-        State s1FromDao = sDao.readStateById(state1.getId());
-        State s2FromDao = sDao.readStateById(state2.getId());
-        State s3FromDao = sDao.readStateById(state3.getId());
+        State s1FromDao = sDao.readStateById(state1.getStateId());
+        State s2FromDao = sDao.readStateById(state2.getStateId());
+        State s3FromDao = sDao.readStateById(state3.getStateId());
 
         assertNotNull(state1);
         assertNotNull(state2);
@@ -128,12 +128,12 @@ class StateDaoTest {
     @Test
     void updateState() {
         State state1 = sDao.createState(s1);
-        State original = sDao.readStateById(state1.getId());
+        State original = sDao.readStateById(state1.getStateId());
 
         state1.setName("New Jersey");
         state1.setAbbreviation("NJ");
         State edit = sDao.updateState(state1);
-        State updated = sDao.readStateById(state1.getId());
+        State updated = sDao.readStateById(state1.getStateId());
 
         assertNotNull(original);
         assertNotNull(edit);
@@ -150,10 +150,11 @@ class StateDaoTest {
         State state3 = sDao.createState(s3);
         List<State> original = sDao.readAllStates();
 
-        boolean deleted = sDao.deleteState(state3.getId());
+        boolean deleted = sDao.deleteState(state3.getStateId());
         List<State> afterDel = sDao.readAllStates();
 
         assertNotNull(original);
+        assertTrue(deleted);
         assertEquals(3, original.size());
         assertNotNull(afterDel);
         assertEquals(2, afterDel.size());

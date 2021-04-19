@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class State {
-    private int id;
+    private int stateId;
 
     @NotBlank(message = "State name cannot be blank")
     private String name;
@@ -18,12 +18,12 @@ public class State {
     @Digits(integer = 2, fraction = 2, message = "Tax rate must be well formed percentage")
     private BigDecimal taxRate;
 
-    public int getId() {
-        return id;
+    public int getStateId() {
+        return stateId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStateId(int stateId) {
+        this.stateId = stateId;
     }
 
     public String getName() {
@@ -55,7 +55,7 @@ public class State {
         if (this == o) return true;
         if (!(o instanceof State)) return false;
         State state = (State) o;
-        return getId() == state.getId() &&
+        return getStateId() == state.getStateId() &&
                 getName().equals(state.getName()) &&
                 Objects.equals(getAbbreviation(), state.getAbbreviation()) &&
                 getTaxRate().equals(state.getTaxRate());
@@ -63,6 +63,6 @@ public class State {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getAbbreviation(), getTaxRate());
+        return Objects.hash(getStateId(), getName(), getAbbreviation(), getTaxRate());
     }
 }

@@ -30,7 +30,7 @@ class ProductDaoTest {
     void setUp() {
         /*clear db*/
         for (Product p : pDao.readAllProducts()) {
-            pDao.deleteProduct(p.getId());
+            pDao.deleteProduct(p.getProductId());
         }
 
         /*set up products*/
@@ -72,9 +72,9 @@ class ProductDaoTest {
         Product prod2 = pDao.createProduct(p2);
         Product prod3 = pDao.createProduct(p3);
 
-        Product prod1FromDao = pDao.readProductById(prod1.getId());
-        Product prod2FromDao = pDao.readProductById(prod2.getId());
-        Product prod3FromDao = pDao.readProductById(prod3.getId());
+        Product prod1FromDao = pDao.readProductById(prod1.getProductId());
+        Product prod2FromDao = pDao.readProductById(prod2.getProductId());
+        Product prod3FromDao = pDao.readProductById(prod3.getProductId());
 
         assertNotNull(prod1);
         assertNotNull(prod1FromDao);
@@ -105,7 +105,7 @@ class ProductDaoTest {
     @Test
     void updateProduct() {
         Product prod1 = pDao.createProduct(p1);
-        Product original = pDao.readProductById(prod1.getId());
+        Product original = pDao.readProductById(prod1.getProductId());
 
         prod1.setName("Glacial Acetic Acid");
         prod1.setChemicalName("Acetic Acid/Ethanoic Acid");
@@ -114,7 +114,7 @@ class ProductDaoTest {
         prod1.setHandlingCost(new BigDecimal("0.25"));
 
         Product edit = pDao.updateProduct(prod1);
-        Product updated = pDao.readProductById(prod1.getId());
+        Product updated = pDao.readProductById(prod1.getProductId());
 
         assertNotNull(original);
         assertNotNull(edit);
@@ -131,7 +131,7 @@ class ProductDaoTest {
         Product prod3 = pDao.createProduct(p3);
         List<Product> original = pDao.readAllProducts();
 
-        boolean deleted = pDao.deleteProduct(prod3.getId());
+        boolean deleted = pDao.deleteProduct(prod3.getProductId());
         List<Product> afterDel = pDao.readAllProducts();
 
         assertNotNull(original);

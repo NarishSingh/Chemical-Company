@@ -62,23 +62,23 @@ class OrderServiceTest {
     void setUp() {
         /*clean db*/
         for (Role r : rDao.readAllRoles()) {
-            rDao.deleteRole(r.getId());
+            rDao.deleteRole(r.getRoleId());
         }
 
         for (User u : uDao.readAllUsers()) {
-            uDao.deleteUser(u.getId());
+            uDao.deleteUser(u.getUserId());
         }
 
         for (State s : sDao.readAllStates()) {
-            sDao.deleteState(s.getId());
+            sDao.deleteState(s.getStateId());
         }
 
         for (Product p : pDao.readAllProducts()) {
-            pDao.deleteProduct(p.getId());
+            pDao.deleteProduct(p.getProductId());
         }
 
         for (Order o : oDao.readAllOrders()) {
-            oDao.deleteOrder(o.getId());
+            oDao.deleteOrder(o.getOrderId());
         }
 
         /*Create dependent obj's*/
@@ -215,7 +215,7 @@ class OrderServiceTest {
 
         Order fromDao = null;
         try {
-            fromDao = serv.readOrderById(order.getId());
+            fromDao = serv.readOrderById(order.getOrderId());
         } catch (DataAccessException e) {
             fail("Valid order");
         }
@@ -418,7 +418,7 @@ class OrderServiceTest {
     @Test
     void updateOrder() {
         Order order1 = serv.createOrder(o1);
-        Order original = serv.readOrderById(order1.getId());
+        Order original = serv.readOrderById(order1.getOrderId());
 
         order1.setProduct(lye);
         Order update = serv.updateOrder(order1);
@@ -438,7 +438,7 @@ class OrderServiceTest {
         Order order4 = serv.createOrder(o4);
         List<Order> original = serv.readAllOrders();
 
-        boolean deleted = serv.deleteOrder(order4.getId());
+        boolean deleted = serv.deleteOrder(order4.getOrderId());
         List<Order> afterDel = serv.readAllOrders();
 
         assertNotNull(original);

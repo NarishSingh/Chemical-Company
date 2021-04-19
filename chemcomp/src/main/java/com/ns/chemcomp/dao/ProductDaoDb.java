@@ -33,7 +33,7 @@ public class ProductDaoDb implements ProductDao {
 
         //grab id
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
-        product.setId(newId);
+        product.setProductId(newId);
 
         return product;
     }
@@ -76,7 +76,7 @@ public class ProductDaoDb implements ProductDao {
                 product.getUnitCost(),
                 product.getHandlingCost(),
                 product.getPhotoFilename(),
-                product.getId());
+                product.getProductId());
 
         if (updated == 1) {
             return product;
@@ -107,7 +107,7 @@ public class ProductDaoDb implements ProductDao {
         @Override
         public Product mapRow(ResultSet rs, int i) throws SQLException {
             Product p = new Product();
-            p.setId(rs.getInt("productId"));
+            p.setProductId(rs.getInt("productId"));
             p.setName(rs.getString("name"));
             p.setChemicalName(rs.getString("chemicalName"));
             p.setMassVolume(rs.getBigDecimal("massVolume"));

@@ -35,11 +35,11 @@ public class OrderDaoDb implements OrderDao {
                 order.getNetPrice(),
                 order.getTax(),
                 order.getTotal(),
-                order.getUser().getId());
+                order.getUser().getUserId());
 
         //grab id
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
-        order.setId(newId);
+        order.setOrderId(newId);
 
         //update bridge tables
         insertOrderState(order);
@@ -83,7 +83,7 @@ public class OrderDaoDb implements OrderDao {
         String readByProduct = "SELECT o.* FROM `order` o " +
                 "JOIN orderProduct op ON op.orderId = o.orderId " +
                 "WHERE op.productId = ?;";
-        List<Order> orders = jdbc.query(readByProduct, new OrderMapper(), product.getId());
+        List<Order> orders = jdbc.query(readByProduct, new OrderMapper(), product.getProductId());
         for (Order order : orders) {
             associateOrderUser(order);
             associateOrderState(order);
@@ -98,7 +98,7 @@ public class OrderDaoDb implements OrderDao {
         String readByUser = "SELECT o.* FROM `order` o " +
                 "JOIN user u ON u.userId = o.userId " +
                 "WHERE u.userId = ?;";
-        List<Order> orders = jdbc.query(readByUser, new OrderMapper(), user.getId());
+        List<Order> orders = jdbc.query(readByUser, new OrderMapper(), user.getUserId());
         for (Order order : orders) {
             associateOrderUser(order);
             associateOrderState(order);
@@ -114,7 +114,7 @@ public class OrderDaoDb implements OrderDao {
                 "JOIN orderState os ON os.orderId = o.orderId " +
                 "JOIN state s ON s.stateId = os.stateId " +
                 "WHERE s.stateId = ?;";
-        List<Order> orders = jdbc.query(readByState, new OrderMapper(), state.getId());
+        List<Order> orders = jdbc.query(readByState, new OrderMapper(), state.getStateId());
         for (Order order : orders) {
             associateOrderUser(order);
             associateOrderState(order);
@@ -156,20 +156,20 @@ public class OrderDaoDb implements OrderDao {
                 order.getNetPrice(),
                 order.getTax(),
                 order.getTotal(),
-                order.getUser().getId(),
-                order.getId());
+                order.getUser().getUserId(),
+                order.getOrderId());
 
         if (updated == 1) {
             //delete and reinsert to State bridge
             String delOS = "DELETE FROM orderState " +
                     "WHERE orderId = ?;";
-            jdbc.update(delOS, order.getId());
+            jdbc.update(delOS, order.getOrderId());
             insertOrderState(order);
 
             //delete and reinsert to Product bridge
             String delOP = "DELETE FROM orderProduct " +
                     "WHERE orderId = ?;";
-            jdbc.update(delOP, order.getId());
+            jdbc.update(delOP, order.getOrderId());
             insertOrderProduct(order);
 
             return order;
@@ -207,7 +207,7 @@ public class OrderDaoDb implements OrderDao {
     private void insertOrderState(Order order) {
         String insertBridge = "INSERT INTO orderState (orderId, stateId) " +
                 "VALUES(?,?);";
-        jdbc.update(insertBridge, order.getId(), order.getState().getId());
+        jdbc.update(insertBridge, order.getOrderId(), order.getState().getStateId());
     }
 
     /**
@@ -218,7 +218,7 @@ public class OrderDaoDb implements OrderDao {
     private void insertOrderProduct(Order order) {
         String insertBridge = "INSERT INTO orderProduct (orderId, productId) " +
                 "VALUES(?,?);";
-        jdbc.update(insertBridge, order.getId(), order.getProduct().getId());
+        jdbc.update(insertBridge, order.getOrderId(), order.getProduct().getProductId());
     }
 
     /**
@@ -232,13 +232,13 @@ public class OrderDaoDb implements OrderDao {
         String readUser = "SELECT u.* FROM user u " +
                 "JOIN `order` o ON o.userId = u.userId " +
                 "WHERE o.orderId = ?;";
-        User u = jdbc.queryForObject(readUser, new UserMapper(), order.getId());
+        User u = jdbc.queryForObject(readUser, new UserMapper(), order.getOrderId());
 
         //read and associate roles for user
         String readRoles = "SELECT r.* FROM role r " +
                 "JOIN userRole ur ON ur.roleId = r.roleId " +
                 "WHERE ur.userId = ?;";
-        Set<Role> userRoles = new HashSet<>(jdbc.query(readRoles, new RoleMapper(), u.getId()));
+        Set<Role> userRoles = new HashSet<>(jdbc.query(readRoles, new RoleMapper(), u.getUserId()));
         u.setRoles(userRoles);
 
         order.setUser(u);
@@ -254,7 +254,7 @@ public class OrderDaoDb implements OrderDao {
         String readState = "SELECT s.* FROM state s " +
                 "JOIN orderState os ON os.stateId = s.stateId " +
                 "WHERE os.orderId = ?;";
-        State s = jdbc.queryForObject(readState, new StateMapper(), order.getId());
+        State s = jdbc.queryForObject(readState, new StateMapper(), order.getOrderId());
 
         order.setState(s);
     }
@@ -269,7 +269,7 @@ public class OrderDaoDb implements OrderDao {
         String readProduct = "SELECT p.* FROM product p " +
                 "JOIN orderProduct op ON op.productId = p.productId " +
                 "WHERE op.orderId = ?;";
-        Product p = jdbc.queryForObject(readProduct, new ProductDaoDb.ProductMapper(), order.getId());
+        Product p = jdbc.queryForObject(readProduct, new ProductDaoDb.ProductMapper(), order.getOrderId());
 
         order.setProduct(p);
     }
@@ -281,7 +281,7 @@ public class OrderDaoDb implements OrderDao {
         @Override
         public Order mapRow(ResultSet rs, int i) throws SQLException {
             Order o = new Order();
-            o.setId(rs.getInt("orderId"));
+            o.setOrderId(rs.getInt("orderId"));
             o.setOrderDate(rs.getDate("orderDate").toLocalDate());
             o.setQuantity(rs.getInt("quantity"));
             o.setNetPrice(rs.getBigDecimal("netPrice"));

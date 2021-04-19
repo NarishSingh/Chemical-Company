@@ -29,7 +29,7 @@ public class StateDaoDb implements StateDao {
 
         //grab id
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
-        state.setId(newId);
+        state.setStateId(newId);
 
         return state;
     }
@@ -87,7 +87,7 @@ public class StateDaoDb implements StateDao {
                 state.getName(),
                 state.getAbbreviation(),
                 state.getTaxRate(),
-                state.getId());
+                state.getStateId());
 
         if (updated == 1) {
             return state;
@@ -118,7 +118,7 @@ public class StateDaoDb implements StateDao {
         @Override
         public State mapRow(ResultSet rs, int i) throws SQLException {
             State s = new State();
-            s.setId(rs.getInt("stateId"));
+            s.setStateId(rs.getInt("stateId"));
             s.setName(rs.getString("name"));
             s.setAbbreviation(rs.getString("abbreviation"));
             s.setTaxRate(rs.getBigDecimal("taxRate"));

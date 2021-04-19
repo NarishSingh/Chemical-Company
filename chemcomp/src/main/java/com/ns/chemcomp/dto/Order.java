@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Order {
-    private int id;
+    private int orderId;
 
     @NotNull(message = "Must log order date")
     @FutureOrPresent(message = "Cannot order in the past")
@@ -74,12 +74,12 @@ public class Order {
         this.product = product;
     } //validated order, no id as must come from db
 
-    public int getId() {
-        return id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public LocalDate getOrderDate() {
@@ -151,7 +151,7 @@ public class Order {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return getId() == order.getId() &&
+        return getOrderId() == order.getOrderId() &&
                 getQuantity() == order.getQuantity() &&
                 getOrderDate().equals(order.getOrderDate()) &&
                 getNetPrice().equals(order.getNetPrice()) &&
@@ -164,14 +164,14 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOrderDate(), getQuantity(), getNetPrice(), getTax(), getTotal(), getUser(),
+        return Objects.hash(getOrderId(), getOrderDate(), getQuantity(), getNetPrice(), getTax(), getTotal(), getUser(),
                 getState(), getProduct());
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
+                "id=" + orderId +
                 ", orderDate=" + orderDate +
                 ", quantity=" + quantity +
                 ", netPrice=" + netPrice +

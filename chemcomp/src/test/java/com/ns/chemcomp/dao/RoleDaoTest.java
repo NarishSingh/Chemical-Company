@@ -27,7 +27,7 @@ class RoleDaoTest {
     void setUp() {
         /*clean db*/
         for (Role r : rDao.readAllRoles()) {
-            rDao.deleteRole(r.getId());
+            rDao.deleteRole(r.getRoleId());
         }
 
         /*setup roles*/
@@ -47,8 +47,8 @@ class RoleDaoTest {
         Role role1 = rDao.createRole(r1);
         Role role2 = rDao.createRole(r2);
 
-        Role fromDao1 = rDao.readRoleById(role1.getId());
-        Role fromDao2 = rDao.readRoleById(role2.getId());
+        Role fromDao1 = rDao.readRoleById(role1.getRoleId());
+        Role fromDao2 = rDao.readRoleById(role2.getRoleId());
 
         assertNotNull(role1);
         assertNotNull(role2);
@@ -88,7 +88,7 @@ class RoleDaoTest {
     @Test
     void updateRole() {
         Role role1 = rDao.createRole(r1);
-        Role original = rDao.readRoleById(role1.getId());
+        Role original = rDao.readRoleById(role1.getRoleId());
 
         role1.setRole("ROLE_QUALITY_TESTER");
         Role edit = rDao.updateRole(role1);
@@ -106,7 +106,7 @@ class RoleDaoTest {
         Role role2 = rDao.createRole(r2);
         List<Role> originalRoles = rDao.readAllRoles();
 
-        boolean deleted = rDao.deleteRole(role1.getId());
+        boolean deleted = rDao.deleteRole(role1.getRoleId());
         List<Role> afterDel = rDao.readAllRoles();
 
         assertNotNull(originalRoles);

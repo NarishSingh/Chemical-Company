@@ -35,11 +35,11 @@ class UserDaoTest {
     void setUp() {
         /*clean db*/
         for (Role r : rDao.readAllRoles()) {
-            rDao.deleteRole(r.getId());
+            rDao.deleteRole(r.getRoleId());
         }
 
         for (User u : uDao.readAllUsers()) {
-            uDao.deleteUser(u.getId());
+            uDao.deleteUser(u.getUserId());
         }
 
         /*create roles and sets*/
@@ -103,9 +103,9 @@ class UserDaoTest {
         User user1 = uDao.createUser(u1);
         User user2 = uDao.createUser(u2);
 
-        User adminFromDao = uDao.readUserById(admin.getId());
-        User user1FromDao = uDao.readUserById(user1.getId());
-        User user2FromDao = uDao.readUserById(user2.getId());
+        User adminFromDao = uDao.readUserById(admin.getUserId());
+        User user1FromDao = uDao.readUserById(user1.getUserId());
+        User user2FromDao = uDao.readUserById(user2.getUserId());
 
         assertNotNull(admin);
         assertNotNull(user1);
@@ -187,7 +187,7 @@ class UserDaoTest {
     @Test
     void updateUser() {
         User user1 = uDao.createUser(u1);
-        User original = uDao.readUserById(user1.getId());
+        User original = uDao.readUserById(user1.getUserId());
 
         Set<Role> newRoles = new HashSet<>();
         newRoles.add(role1);
@@ -197,7 +197,7 @@ class UserDaoTest {
         user1.setEnabled(false);
         user1.setRoles(newRoles);
         User editedUser = uDao.updateUser(user1);
-        User afterEdit = uDao.readUserById(user1.getId());
+        User afterEdit = uDao.readUserById(user1.getUserId());
 
         assertNotNull(original);
         assertNotNull(editedUser);
@@ -213,7 +213,7 @@ class UserDaoTest {
         User user2 = uDao.createUser(u2);
         List<User> original = uDao.readAllUsers();
 
-        boolean deleted = uDao.deleteUser(user1.getId());
+        boolean deleted = uDao.deleteUser(user1.getUserId());
         List<User> afterDel = uDao.readAllUsers();
 
         assertNotNull(original);

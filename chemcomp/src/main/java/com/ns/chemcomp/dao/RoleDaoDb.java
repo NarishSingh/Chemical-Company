@@ -25,7 +25,7 @@ public class RoleDaoDb implements RoleDao {
         jdbc.update(createQuery, role.getRole());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
-        role.setId(newId);
+        role.setRoleId(newId);
 
         return role;
     }
@@ -64,7 +64,7 @@ public class RoleDaoDb implements RoleDao {
                 "SET role = ? " +
                 "WHERE roleId = ?;";
 
-        if (jdbc.update(updateQuery, role.getRole(), role.getId()) == 1) {
+        if (jdbc.update(updateQuery, role.getRole(), role.getRoleId()) == 1) {
             return role;
         } else {
             return null;
@@ -93,7 +93,7 @@ public class RoleDaoDb implements RoleDao {
         @Override
         public Role mapRow(ResultSet rs, int i) throws SQLException {
             Role r = new Role();
-            r.setId(rs.getInt("roleId"));
+            r.setRoleId(rs.getInt("roleId"));
             r.setRole(rs.getString("role"));
 
             return r;

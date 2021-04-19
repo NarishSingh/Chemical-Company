@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User {
-    private int id;
+    private int userId;
 
     @NotBlank(message = "Must have a username for account")
     @Size(max = 30, message = "Username cannot exceed 30 chars")
@@ -35,7 +35,7 @@ public class User {
 
     @NotNull(message = "Address required for ordering")
     @Size(max = 50, message = "Address cannot exceed 50 chars")
-    private String Address;
+    private String address;
 
     @Size(max = 255, message = "Filename cannot exceed 255 chars")
     private String photoFilename;
@@ -43,12 +43,12 @@ public class User {
     @Valid
     Set<Role> roles;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -100,11 +100,11 @@ public class User {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getPhotoFilename() {
@@ -128,7 +128,7 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getId() == user.getId() &&
+        return getUserId() == user.getUserId() &&
                 isEnabled() == user.isEnabled() &&
                 getUsername().equals(user.getUsername()) &&
                 getPassword().equals(user.getPassword()) &&
@@ -142,20 +142,20 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getPhotoFilename(), getRoles());
+        return Objects.hash(getUserId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getPhotoFilename(), getRoles());
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", Address='" + Address + '\'' +
+                ", Address='" + address + '\'' +
                 ", photoFilename='" + photoFilename + '\'' +
                 ", roles=" + roles +
                 '}';
