@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/dao/ProductDaoDb.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/dao/RoleDaoDb.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/dao/StateDaoDb.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/dao/UserDaoDb.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/scripts/chemComp.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/chemcomp/src/main/java/com/ns/chemcomp/scripts/chemCompTest.sql" dialect="MySQL" />
+    <file url="PROJECT" dialect="MySQL" />
+  </component>
+  <component name="SqlResolveMappings">
+    <file url="PROJECT" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;name&quot;:{     &quot;@qname&quot;:&quot;32782765-bffc-44cf-a8db-b6c9a9a0e82e&quot;    },    &quot;group&quot;:{     &quot;@kind&quot;:&quot;schema&quot;,     &quot;node&quot;:{      &quot;name&quot;:{       &quot;@qname&quot;:&quot;chemcomp&quot;      },      &quot;name&quot;:{       &quot;@qname&quot;:&quot;chemcomptest&quot;      }     }    }   }  } }}" />
+  </component>
+</project>

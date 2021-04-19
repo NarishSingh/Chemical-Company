@@ -8,7 +8,6 @@
     </option>
     <option name="ignoredPathMasks">
       <list>
-        <option value="*.xml" />
         <option value="*.iml" />
       </list>
     </option>
