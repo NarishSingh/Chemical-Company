@@ -1,5 +1,6 @@
 package com.ns.chemcomp.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -34,6 +35,9 @@ public class Product {
 
     @Size(max = 255, message = "Filename cannot exceed 255 chars")
     private String photoFilename;
+
+    @Valid
+    private Category category;
 
     public int getProductId() {
         return productId;
@@ -99,31 +103,31 @@ public class Product {
         this.photoFilename = photoFilename;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return getProductId() == product.getProductId() &&
-                Objects.equals(getName(), product.getName()) &&
-                getChemicalName().equals(product.getChemicalName()) &&
-                getMassVolume().equals(product.getMassVolume()) &&
-                getMeasurement().equals(product.getMeasurement()) &&
-                getUnitCost().equals(product.getUnitCost()) &&
-                getHandlingCost().equals(product.getHandlingCost()) &&
-                Objects.equals(getPhotoFilename(), product.getPhotoFilename());
+        return getProductId() == product.getProductId() && Objects.equals(getName(), product.getName()) && getChemicalName().equals(product.getChemicalName()) && getMassVolume().equals(product.getMassVolume()) && getMeasurement().equals(product.getMeasurement()) && getUnitCost().equals(product.getUnitCost()) && getHandlingCost().equals(product.getHandlingCost()) && Objects.equals(getPhotoFilename(), product.getPhotoFilename()) && getCategory().equals(product.getCategory());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProductId(), getName(), getChemicalName(), getMassVolume(), getMeasurement(), getUnitCost(),
-                getHandlingCost(), getPhotoFilename());
+        return Objects.hash(getProductId(), getName(), getChemicalName(), getMassVolume(), getMeasurement(), getUnitCost(), getHandlingCost(), getPhotoFilename(), getCategory());
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + productId +
+                "productId=" + productId +
                 ", name='" + name + '\'' +
                 ", chemicalName='" + chemicalName + '\'' +
                 ", massVolume=" + massVolume +
@@ -131,6 +135,7 @@ public class Product {
                 ", unitCost=" + unitCost +
                 ", handlingCost=" + handlingCost +
                 ", photoFilename='" + photoFilename + '\'' +
+                ", category=" + category +
                 '}';
     }
 }

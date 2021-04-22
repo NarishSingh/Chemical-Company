@@ -8,13 +8,14 @@ public class State {
     private int stateId;
 
     @NotBlank(message = "State name cannot be blank")
+    @Size(max = 50, message = "Please enter a valid state name within 50 characters")
     private String name;
 
-    @Size(min = 2, max = 2, message = "Abbreviation should be 2 char")
+    @Size(min = 2, max = 2, message = "State abbreviation should be 2 char")
     private String abbreviation;
 
     @NotNull(message = "Please list state tax rate")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Tax rate cannot be $0")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Tax rate cannot be 0%")
     @Digits(integer = 2, fraction = 2, message = "Tax rate must be well formed percentage")
     private BigDecimal taxRate;
 
