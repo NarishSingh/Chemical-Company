@@ -1,5 +1,6 @@
 package com.ns.chemcomp.dao;
 
+import com.ns.chemcomp.dto.Category;
 import com.ns.chemcomp.dto.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,14 @@ class ProductDaoTest {
     @Autowired
     ProductDao pDao;
 
+    @Autowired
+    CategoryDao cDao;
+
+    static Category c1;
+    static Category c2;
+    static Category c3;
+    static Category c4;
+
     static Product p1;
     static Product p2;
     static Product p3;
@@ -29,11 +38,33 @@ class ProductDaoTest {
     @BeforeEach
     void setUp() {
         /*clear db*/
+        for (Category c : cDao.readAllCategories()) {
+            cDao.deleteCategory(c.getCategoryId());
+        }
+
         for (Product p : pDao.readAllProducts()) {
             pDao.deleteProduct(p.getProductId());
         }
 
-        /*set up products*/
+        /*setup categories*/
+        Category category1 = new Category();
+        category1.setCategoryName("Alcohol");
+
+        Category category2 = new Category();
+        category2.setCategoryName("Solution");
+
+        Category category3 = new Category();
+        category3.setCategoryName("Reagant");
+
+        Category category4 = new Category();
+        category4.setCategoryName("Acid");
+
+        c1 = cDao.createCategory(category1);
+        c2 = cDao.createCategory(category2);
+        c3 = cDao.createCategory(category3);
+        c4 = cDao.createCategory(category4);
+
+        /*setup products*/
         p1 = new Product();
         p1.setName("Denatured Alcohol 100%");
         p1.setChemicalName("Ethanol");
@@ -42,6 +73,7 @@ class ProductDaoTest {
         p1.setUnitCost(new BigDecimal("20.00").setScale(2, RoundingMode.HALF_UP));
         p1.setHandlingCost(new BigDecimal("0.05").setScale(2, RoundingMode.HALF_UP));
         p1.setPhotoFilename(null);
+        p1.setCategory(c1);
 
         p2 = new Product();
         p2.setName("Lye 50% Solution");
@@ -51,6 +83,7 @@ class ProductDaoTest {
         p2.setUnitCost(new BigDecimal("26.00").setScale(2, RoundingMode.HALF_UP));
         p2.setHandlingCost(new BigDecimal("0.10").setScale(2, RoundingMode.HALF_UP));
         p2.setPhotoFilename(null);
+        p2.setCategory(c2);
 
         p3 = new Product();
         p3.setName("Glycerol Reagant");
@@ -60,6 +93,7 @@ class ProductDaoTest {
         p3.setUnitCost(new BigDecimal("5.00").setScale(2, RoundingMode.HALF_UP));
         p3.setHandlingCost(new BigDecimal("0.25").setScale(2, RoundingMode.HALF_UP));
         p3.setPhotoFilename(null);
+        p3.setCategory(c3);
     }
 
     @AfterEach
@@ -112,6 +146,7 @@ class ProductDaoTest {
         prod1.setMeasurement("L");
         prod1.setUnitCost(new BigDecimal("41.33"));
         prod1.setHandlingCost(new BigDecimal("0.25"));
+        prod1.setCategory(c4);
 
         Product edit = pDao.updateProduct(prod1);
         Product updated = pDao.readProductById(prod1.getProductId());
