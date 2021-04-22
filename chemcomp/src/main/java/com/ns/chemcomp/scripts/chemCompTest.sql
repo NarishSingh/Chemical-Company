@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS chemCompTest;
-CREATE DATABASE IF NOT EXISTS chemCompTest;
+DROP DATABASE IF EXISTS chemComp;
+CREATE DATABASE IF NOT EXISTS chemComp;
 
-USE chemCompTest;
+USE chemComp;
 
 CREATE TABLE role
 (
@@ -22,24 +22,18 @@ CREATE TABLE user
     photoFilename VARCHAR(255)
 );
 
--- bridge
-CREATE TABLE userRole
-(
-    roleId INT NOT NULL,
-    userId INT NOT NULL,
-    PRIMARY KEY (roleId, userId),
-    CONSTRAINT `fk_role_userRole` FOREIGN KEY (roleId)
-        REFERENCES role (roleId),
-    CONSTRAINT `fk_user_userRole` FOREIGN KEY (userId)
-        REFERENCES user (userId)
-);
-
 CREATE TABLE state
 (
     stateId      INT PRIMARY KEY AUTO_INCREMENT,
     name         VARCHAR(50)   NOT NULL,
     abbreviation CHAR(2),
     taxRate      DECIMAL(4, 2) NOT NULL
+);
+
+CREATE TABLE category
+(
+    categoryId   INT PRIMARY KEY AUTO_INCREMENT,
+    categoryName VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE product
@@ -56,19 +50,41 @@ CREATE TABLE product
 
 CREATE TABLE `order`
 (
-    orderId    INT PRIMARY KEY AUTO_INCREMENT,
-    orderDate  DATE          NOT NULL,
-    quantity   INT           NOT NULL,
-    netPrice   DECIMAL(8, 2) NOT NULL,
-    tax        DECIMAL(8, 2) NOT NULL,
-    total      DECIMAL(8, 2) NOT NULL,
+    orderId   INT PRIMARY KEY AUTO_INCREMENT,
+    orderDate DATE          NOT NULL,
+    quantity  INT           NOT NULL,
+    netPrice  DECIMAL(8, 2) NOT NULL,
+    tax       DECIMAL(8, 2) NOT NULL,
+    total     DECIMAL(8, 2) NOT NULL,
     -- fk's
-    userId     INT           NOT NULL,
+    userId    INT           NOT NULL,
     CONSTRAINT `fk_user_order` FOREIGN KEY (userId)
         REFERENCES user (userId)
 );
 
 -- bridge tables
+CREATE TABLE userRole
+(
+    roleId INT NOT NULL,
+    userId INT NOT NULL,
+    PRIMARY KEY (roleId, userId),
+    CONSTRAINT `fk_role_userRole` FOREIGN KEY (roleId)
+        REFERENCES role (roleId),
+    CONSTRAINT `fk_user_userRole` FOREIGN KEY (userId)
+        REFERENCES user (userId)
+);
+
+CREATE TABLE productCategory
+(
+    productId  INT NOT NULL,
+    categoryId INT NOT NULL,
+    PRIMARY KEY (productId, categoryId),
+    CONSTRAINT `fk_product_productCategory` FOREIGN KEY (productId)
+        REFERENCES product (productId),
+    CONSTRAINT `fk_category_productCategory` FOREIGN KEY (categoryId)
+        REFERENCES category (categoryId)
+);
+
 CREATE TABLE orderProduct
 (
     orderId   INT NOT NULL,
