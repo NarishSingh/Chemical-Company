@@ -66,6 +66,11 @@ public class CategoryDaoDb implements CategoryDao {
     @Override
     @Transactional
     public boolean deleteCategory(int id) {
+        //delete from bridge
+        String deletePc = "DELETE FROM productCategory " +
+                "WHERE categoryId = ?;";
+        jdbc.update(deletePc, id);
+
         String delete = "DELETE FROM category " +
                 "WHERE categoryId = ?;";
         return jdbc.update(delete, id) == 1;
