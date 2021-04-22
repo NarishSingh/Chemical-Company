@@ -164,12 +164,14 @@ public class OrderDaoDb implements OrderDao {
             String delOS = "DELETE FROM orderState " +
                     "WHERE orderId = ?;";
             jdbc.update(delOS, order.getOrderId());
+
             insertOrderState(order);
 
             //delete and reinsert to Product bridge
             String delOP = "DELETE FROM orderProduct " +
                     "WHERE orderId = ?;";
             jdbc.update(delOP, order.getOrderId());
+            
             insertOrderProduct(order);
 
             return order;

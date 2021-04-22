@@ -1,5 +1,7 @@
 package com.ns.chemcomp.dao;
 
+import com.ns.chemcomp.dao.CategoryDaoDb.CategoryMapper;
+import com.ns.chemcomp.dto.Category;
 import com.ns.chemcomp.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -35,6 +37,9 @@ public class ProductDaoDb implements ProductDao {
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         product.setProductId(newId);
 
+        //insert to bridge
+        insertProductCategory(product);
+
         return product;
     }
 
@@ -43,7 +48,10 @@ public class ProductDaoDb implements ProductDao {
         try {
             String readId = "SELECT * FROM product " +
                     "WHERE productId = ?;";
-            return jdbc.queryForObject(readId, new ProductMapper(), id);
+            Product product = jdbc.queryForObject(readId, new ProductMapper(), id);
+            associateProductCategory(product);
+
+            return product;
         } catch (DataAccessException e) {
             return null;
         }
@@ -52,7 +60,12 @@ public class ProductDaoDb implements ProductDao {
     @Override
     public List<Product> readAllProducts() {
         String readAll = "SELECT * FROM product;";
-        return jdbc.query(readAll, new ProductMapper());
+        List<Product> products = jdbc.query(readAll, new ProductMapper());
+        for (Product p : products) {
+            associateProductCategory(p);
+        }
+
+        return products;
     }
 
     @Override
@@ -79,6 +92,13 @@ public class ProductDaoDb implements ProductDao {
                 product.getProductId());
 
         if (updated == 1) {
+            //delete and reinsert to bridge
+            String delPc = "DELETE FROM productCategory " +
+                    "WHERE productId = ?;";
+            jdbc.update(delPc, product.getProductId());
+
+            insertProductCategory(product);
+
             return product;
         } else {
             return null;
@@ -88,15 +108,46 @@ public class ProductDaoDb implements ProductDao {
     @Override
     @Transactional
     public boolean deleteProduct(int id) {
-        //delete from bridge
+        //delete from bridges
         String delPO = "DELETE FROM orderProduct " +
                 "WHERE productId = ?;";
         jdbc.update(delPO, id);
 
-        //delete product
+        String delPC = "DELETE FROM productCategory " +
+                "WHERE productId = ?;";
+        jdbc.update(delPC, id);
+
+        //delete product itself
         String deleteProduct = "DELETE FROM product " +
                 "WHERE productId = ?;";
         return jdbc.update(deleteProduct, id) == 1;
+    }
+
+    /*HELPERS*/
+
+    /**
+     * Update productCategory bridge table in db
+     *
+     * @param product {Product} well formed obj
+     */
+    private void insertProductCategory(Product product) {
+        String insertQuery = "INSERT INTO productCategory (productId, categoryId) " +
+                "VALUES(?,?);";
+        jdbc.update(insertQuery, product.getProductId(), product.getCategory().getCategoryId());
+    }
+
+    /**
+     * Associate Category with Product in memory
+     *
+     * @param product {Product} well formed obj
+     */
+    private void associateProductCategory(Product product) {
+        String selectQuery = "SELECT c.* FROM category c " +
+                "JOIN productCategory pc on c.categoryId = pc.categoryId " +
+                "WHERE pc.productId = ?;";
+        Category c = jdbc.queryForObject(selectQuery, new CategoryMapper(), product.getProductId());
+
+        product.setCategory(c);
     }
 
     /**
