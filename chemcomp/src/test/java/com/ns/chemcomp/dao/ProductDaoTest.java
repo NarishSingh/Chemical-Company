@@ -54,7 +54,7 @@ class ProductDaoTest {
         category2.setCategoryName("Solution");
 
         Category category3 = new Category();
-        category3.setCategoryName("Reagant");
+        category3.setCategoryName("Reagent");
 
         Category category4 = new Category();
         category4.setCategoryName("Acid");
