@@ -1,5 +1,7 @@
 package com.ns.chemcomp.dao;
 
+import com.ns.chemcomp.dao.CategoryDaoDb.CategoryMapper;
+import com.ns.chemcomp.dao.ProductDaoDb.ProductMapper;
 import com.ns.chemcomp.dao.RoleDaoDb.RoleMapper;
 import com.ns.chemcomp.dao.StateDaoDb.StateMapper;
 import com.ns.chemcomp.dao.UserDaoDb.UserMapper;
@@ -268,10 +270,17 @@ public class OrderDaoDb implements OrderDao {
      * @throws DataAccessException if cannot retrieve Product
      */
     private void associateOrderProduct(Order order) throws DataAccessException {
+        //read product
         String readProduct = "SELECT p.* FROM product p " +
                 "JOIN orderProduct op ON op.productId = p.productId " +
                 "WHERE op.orderId = ?;";
-        Product p = jdbc.queryForObject(readProduct, new ProductDaoDb.ProductMapper(), order.getOrderId());
+        Product p = jdbc.queryForObject(readProduct, new ProductMapper(), order.getOrderId());
+
+        //associate category with product
+        String readCategory = "SELECT c.* FROM category c " +
+                "JOIN productCategory pc on c.categoryId = pc.categoryId " +
+                "WHERE pc.productId = ?;";
+        p.setCategory(jdbc.queryForObject(readCategory, new CategoryMapper(), p.getProductId()));
 
         order.setProduct(p);
     }

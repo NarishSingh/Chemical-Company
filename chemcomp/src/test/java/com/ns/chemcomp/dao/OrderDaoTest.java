@@ -32,6 +32,8 @@ class OrderDaoTest {
     ProductDao pDao;
     @Autowired
     OrderDao oDao;
+    @Autowired
+    CategoryDao cDao;
 
     static Role adminRole;
     static Role userRole;
@@ -43,6 +45,10 @@ class OrderDaoTest {
     static State nyState;
     static State caState;
     static State flState;
+
+    static Category c1;
+    static Category c2;
+    static Category c3;
 
     static Product alcohol;
     static Product lye;
@@ -70,6 +76,10 @@ class OrderDaoTest {
 
         for (Product p : pDao.readAllProducts()) {
             pDao.deleteProduct(p.getProductId());
+        }
+
+        for (Category c : cDao.readAllCategories()) {
+            cDao.deleteCategory(c.getCategoryId());
         }
 
         for (Order o : oDao.readAllOrders()) {
@@ -149,6 +159,20 @@ class OrderDaoTest {
         s3.setTaxRate(new BigDecimal("0.75").setScale(2, RoundingMode.HALF_UP));
         flState = sDao.createState(s3);
 
+        //categories
+        Category category1 = new Category();
+        category1.setCategoryName("Alcohol");
+
+        Category category2 = new Category();
+        category2.setCategoryName("Solution");
+
+        Category category3 = new Category();
+        category3.setCategoryName("Reagent");
+
+        c1 = cDao.createCategory(category1);
+        c2 = cDao.createCategory(category2);
+        c3 = cDao.createCategory(category3);
+
         //Products
         Product p1 = new Product();
         p1.setName("Denatured Alcohol 100%");
@@ -158,6 +182,7 @@ class OrderDaoTest {
         p1.setUnitCost(new BigDecimal("20").setScale(2, RoundingMode.HALF_UP));
         p1.setHandlingCost(new BigDecimal("0.05").setScale(2, RoundingMode.HALF_UP));
         p1.setPhotoFilename(null);
+        p1.setCategory(c1);
         alcohol = pDao.createProduct(p1);
 
         Product p2 = new Product();
@@ -168,6 +193,7 @@ class OrderDaoTest {
         p2.setUnitCost(new BigDecimal("26.00").setScale(2, RoundingMode.HALF_UP));
         p2.setHandlingCost(new BigDecimal("0.10").setScale(2, RoundingMode.HALF_UP));
         p2.setPhotoFilename(null);
+        p2.setCategory(c2);
         lye = pDao.createProduct(p2);
 
         Product p3 = new Product();
@@ -178,6 +204,7 @@ class OrderDaoTest {
         p3.setUnitCost(new BigDecimal("12.50").setScale(2, RoundingMode.HALF_UP));
         p3.setHandlingCost(new BigDecimal("0.25").setScale(2, RoundingMode.HALF_UP));
         p3.setPhotoFilename(null);
+        p3.setCategory(c3);
         glycerol = pDao.createProduct(p3);
 
         /*setup Orders*/

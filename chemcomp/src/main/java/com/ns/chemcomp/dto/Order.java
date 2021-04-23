@@ -151,15 +151,9 @@ public class Order {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return getOrderId() == order.getOrderId() &&
-                getQuantity() == order.getQuantity() &&
-                getOrderDate().equals(order.getOrderDate()) &&
-                getNetPrice().equals(order.getNetPrice()) &&
-                getTax().equals(order.getTax()) &&
-                getTotal().equals(order.getTotal()) &&
-                getUser().equals(order.getUser()) &&
-                getState().equals(order.getState()) &&
-                getProduct().equals(order.getProduct());
+        return getOrderId() == order.getOrderId() && getQuantity() == order.getQuantity() && getOrderDate().equals(order.getOrderDate())
+                && getNetPrice().equals(order.getNetPrice()) && getTax().equals(order.getTax()) && getTotal().equals(order.getTotal())
+                && getUser().equals(order.getUser()) && getState().equals(order.getState()) && getProduct().equals(order.getProduct());
     }
 
     @Override
@@ -171,7 +165,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + orderId +
+                "orderId=" + orderId +
                 ", orderDate=" + orderDate +
                 ", quantity=" + quantity +
                 ", netPrice=" + netPrice +
