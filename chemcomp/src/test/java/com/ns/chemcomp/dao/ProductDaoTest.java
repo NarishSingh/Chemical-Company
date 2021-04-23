@@ -38,12 +38,12 @@ class ProductDaoTest {
     @BeforeEach
     void setUp() {
         /*clear db*/
-        for (Category c : cDao.readAllCategories()) {
-            cDao.deleteCategory(c.getCategoryId());
-        }
-
         for (Product p : pDao.readAllProducts()) {
             pDao.deleteProduct(p.getProductId());
+        }
+
+        for (Category c : cDao.readAllCategories()) {
+            cDao.deleteCategory(c.getCategoryId());
         }
 
         /*setup categories*/

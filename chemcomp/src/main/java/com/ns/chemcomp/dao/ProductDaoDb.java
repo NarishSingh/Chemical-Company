@@ -21,6 +21,7 @@ public class ProductDaoDb implements ProductDao {
     JdbcTemplate jdbc;
 
     @Override
+    @Transactional
     public Product createProduct(Product product) {
         String insert = "INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename) " +
                 "VALUES(?,?,?,?,?,?,?);";
@@ -49,7 +50,7 @@ public class ProductDaoDb implements ProductDao {
             String readId = "SELECT * FROM product " +
                     "WHERE productId = ?;";
             Product product = jdbc.queryForObject(readId, new ProductMapper(), id);
-            associateProductCategory(product);
+            product.setCategory(readCategoryForProduct(id));
 
             return product;
         } catch (DataAccessException e) {
@@ -62,7 +63,7 @@ public class ProductDaoDb implements ProductDao {
         String readAll = "SELECT * FROM product;";
         List<Product> products = jdbc.query(readAll, new ProductMapper());
         for (Product p : products) {
-            associateProductCategory(p);
+            p.setCategory(readCategoryForProduct(p.getProductId()));
         }
 
         return products;
@@ -137,17 +138,16 @@ public class ProductDaoDb implements ProductDao {
     }
 
     /**
-     * Associate Category with Product in memory
+     * Retrieve category from db for product
      *
-     * @param product {Product} well formed obj
+     * @param id {int} a valid product id
+     * @return {Category} the category for the product
      */
-    private void associateProductCategory(Product product) {
+    private Category readCategoryForProduct(int id) {
         String selectQuery = "SELECT c.* FROM category c " +
                 "JOIN productCategory pc on c.categoryId = pc.categoryId " +
                 "WHERE pc.productId = ?;";
-        Category c = jdbc.queryForObject(selectQuery, new CategoryMapper(), product.getProductId());
-
-        product.setCategory(c);
+        return jdbc.queryForObject(selectQuery, new CategoryMapper(), id);
     }
 
     /**
