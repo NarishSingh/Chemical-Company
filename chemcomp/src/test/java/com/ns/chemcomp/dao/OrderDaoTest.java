@@ -159,7 +159,7 @@ class OrderDaoTest {
         s3.setTaxRate(new BigDecimal("0.75").setScale(2, RoundingMode.HALF_UP));
         flState = sDao.createState(s3);
 
-        //categories
+        //Categories
         Category category1 = new Category();
         category1.setCategoryName("Alcohol");
 

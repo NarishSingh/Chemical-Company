@@ -142,12 +142,17 @@ public class ProductDaoDb implements ProductDao {
      *
      * @param id {int} a valid product id
      * @return {Category} the category for the product
+     * @throws DataAccessException if read fails
      */
-    private Category readCategoryForProduct(int id) {
-        String selectQuery = "SELECT c.* FROM category c " +
-                "JOIN productCategory pc on c.categoryId = pc.categoryId " +
-                "WHERE pc.productId = ?;";
-        return jdbc.queryForObject(selectQuery, new CategoryMapper(), id);
+    private Category readCategoryForProduct(int id) throws DataAccessException {
+        try {
+            String selectQuery = "SELECT c.* FROM category c " +
+                    "JOIN productCategory pc on c.categoryId = pc.categoryId " +
+                    "WHERE pc.productId = ?;";
+            return jdbc.queryForObject(selectQuery, new CategoryMapper(), id);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     /**
