@@ -137,6 +137,21 @@ class ProductDaoTest {
     }
 
     @Test
+    void readProductsByCategory() {
+        Product prod1 = pDao.createProduct(p1);
+        Product prod2 = pDao.createProduct(p2);
+        Product prod3 = pDao.createProduct(p3);
+
+        List<Product> alcohols = pDao.readProductsByCategory(c1);
+
+        assertNotNull(alcohols);
+        assertEquals(1, alcohols.size());
+        assertTrue(alcohols.contains(prod1));
+        assertFalse(alcohols.contains(prod2));
+        assertFalse(alcohols.contains(prod3));
+    }
+
+    @Test
     void updateProduct() {
         Product prod1 = pDao.createProduct(p1);
         Product original = pDao.readProductById(prod1.getProductId());

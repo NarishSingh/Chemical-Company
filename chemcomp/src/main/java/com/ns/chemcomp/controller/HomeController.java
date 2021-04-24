@@ -1,5 +1,6 @@
 package com.ns.chemcomp.controller;
 
+import com.ns.chemcomp.dao.CategoryDao;
 import com.ns.chemcomp.dao.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ public class HomeController {
 
     @Autowired
     ProductDao pDao;
+    @Autowired
+    CategoryDao cDao;
 
     @GetMapping({"/", "/home"})
     public String displayHomePage(Model model) {
-        //TODO make wireframes
+        model.addAttribute("productCategories", cDao.readAllCategories()); //TODO add to drop down list
 
         return "home";
     }

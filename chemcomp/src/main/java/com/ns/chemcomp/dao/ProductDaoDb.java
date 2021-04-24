@@ -70,6 +70,19 @@ public class ProductDaoDb implements ProductDao {
     }
 
     @Override
+    public List<Product> readProductsByCategory(Category category) {
+        String readByCategory = "SELECT p.* FROM product p " +
+                "JOIN productCategory pc on p.productId = pc.productId " +
+                "WHERE pc.categoryId = ?;";
+        List<Product> products = jdbc.query(readByCategory, new ProductMapper(), category.getCategoryId());
+        for (Product p : products) {
+            p.setCategory(readCategoryForProduct(p.getProductId()));
+        }
+
+        return products;
+    }
+
+    @Override
     @Transactional
     public Product updateProduct(Product product) {
         String update = "UPDATE product " +
