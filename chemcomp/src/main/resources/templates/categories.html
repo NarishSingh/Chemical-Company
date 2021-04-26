@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page_layout/layout.html}">
+<head>
+    <title>Categories</title>
+
+    <link rel="stylesheet" href="styles/categories.css">
+</head>
+<body>
+<div layout:fragment="main">
+    <h2>Categories</h2>
+    <ul class="list-group list-group-flush" th:each="c : ${categories}">
+        <li class="list-group-item">
+            <a href="#" th:href="@{viewCategory(id=${c.categoryId})}" th:text="${c.categoryName}"></a>
+            <!--TODO get a count of products and place in pill with TH-->
+            <span class="badge badge-primary badge-pill" th:text="${}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

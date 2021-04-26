@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Header</title>
 </head>
@@ -21,12 +20,14 @@
                 <a class="nav-link" href="login">Login</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                <a class="nav-link dropdown-toggle" href="categories" id="category-dropdown" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Browse By Category
+                </a>
+                <div class="dropdown-menu" aria-labelledby="category-dropdown">
+                    <div th:each="c : ${categories}">
+                        <a href="#" th:href="@{viewCategory(id=${c.categoryId})}" th:text="${c.categoryName}"></a>
+                    </div>
                 </div>
             </li>
         </ul>

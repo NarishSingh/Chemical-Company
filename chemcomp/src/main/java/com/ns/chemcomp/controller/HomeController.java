@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping({"/", "/home"})
     public String displayHomePage(Model model) {
-        model.addAttribute("productCategories", cDao.readAllCategories()); //TODO add to drop down list
+        model.addAttribute("categories", cDao.readAllCategories());
 
         return "home";
     }

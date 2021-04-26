@@ -38,8 +38,7 @@ public class ProductDaoDb implements ProductDao {
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         product.setProductId(newId);
 
-        //insert to bridge
-        insertProductCategory(product);
+        insertProductCategory(product); //insert to bridge
 
         return product;
     }
@@ -160,7 +159,7 @@ public class ProductDaoDb implements ProductDao {
     private Category readCategoryForProduct(int id) throws DataAccessException {
         try {
             String selectQuery = "SELECT c.* FROM category c " +
-                    "JOIN productCategory pc on c.categoryId = pc.categoryId " +
+                    "JOIN productCategory pc ON c.categoryId = pc.categoryId " +
                     "WHERE pc.productId = ?;";
             return jdbc.queryForObject(selectQuery, new CategoryMapper(), id);
         } catch (DataAccessException e) {
