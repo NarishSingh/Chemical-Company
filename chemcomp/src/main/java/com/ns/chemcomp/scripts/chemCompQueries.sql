@@ -22,7 +22,7 @@ INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, hand
 INSERT INTO productCategory (productId, categoryId)
         (SELECT LAST_INSERT_ID(), 7);
 
-SELECT *
-FROM product;
-SELECT *
-FROM productCategory;
+SELECT p.*, c.categoryName
+FROM product p
+         JOIN productcategory pc ON p.productId = pc.productId
+         JOIN category c ON c.categoryId = pc.categoryId;

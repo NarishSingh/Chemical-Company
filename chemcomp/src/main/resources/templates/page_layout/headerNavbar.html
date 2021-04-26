@@ -16,20 +16,21 @@
             <li class="nav-item">
                 <a class="nav-link" href="products">Products</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login">Login</a>
-            </li>
-            <!--TODO make a split button and dropdown-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="categories" id="category-dropdown" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Browse By Category
                 </a>
                 <div class="dropdown-menu" aria-labelledby="category-dropdown">
+                    <div><a href="categories">Full Category List</a></div>
+                    <div class="dropdown-divider"></div>
                     <div th:each="c : ${categories}">
                         <a href="#" th:href="@{viewCategory(id=${c.categoryId})}" th:text="${c.categoryName}"></a>
                     </div>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login">Login</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
