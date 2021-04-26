@@ -9,11 +9,11 @@
 <body>
 <div layout:fragment="main">
     <h2>Categories</h2>
-    <ul class="list-group list-group-flush" th:each="c : ${categories}">
+    <ul class="list-group list-group-flush" th:each="c, i : ${categories}">
         <li class="list-group-item">
             <a href="#" th:href="@{viewCategory(id=${c.categoryId})}" th:text="${c.categoryName}"></a>
-            <!--TODO get a count of products and place in pill with TH-->
-            <span class="badge badge-primary badge-pill" th:text="${}"></span>
+            <!--TODO almost there...its putting number in wrong place, consider doing a Map?-->
+            <span class="badge badge-primary badge-pill" th:text="${productCounts[i.index]}"></span>
         </li>
     </ul>
 </div>
