@@ -24,5 +24,5 @@ INSERT INTO productCategory (productId, categoryId)
 
 SELECT p.*, c.categoryName
 FROM product p
-         JOIN productcategory pc ON p.productId = pc.productId
+         JOIN productCategory pc ON p.productId = pc.productId
          JOIN category c ON c.categoryId = pc.categoryId;

@@ -23,12 +23,9 @@ public class CategoryController {
         List<Category> categories = cDao.readAllCategories();
 
         //get product counts
-        //FIXME consider a view model for this?
-        int[] productCounts = new int[categories.size()];
-        int i = 0;
-        for (Category c : categories) {
-            productCounts[i++] = pDao.readProductsByCategory(c).size();
-        }
+        int[] productCounts = categories.stream()
+                .mapToInt(c -> pDao.readProductsByCategory(c).size())
+                .toArray();
 
         model.addAttribute("categories", categories);
         model.addAttribute("productCounts", productCounts);
