@@ -69,11 +69,11 @@ public class ProductDaoDb implements ProductDao {
     }
 
     @Override
-    public List<Product> readProductsByCategory(Category category) {
+    public List<Product> readProductsByCategory(int categoryId) {
         String readByCategory = "SELECT p.* FROM product p " +
                 "JOIN productCategory pc on p.productId = pc.productId " +
                 "WHERE pc.categoryId = ?;";
-        List<Product> products = jdbc.query(readByCategory, new ProductMapper(), category.getCategoryId());
+        List<Product> products = jdbc.query(readByCategory, new ProductMapper(), categoryId);
         for (Product p : products) {
             p.setCategory(readCategoryForProduct(p.getProductId()));
         }

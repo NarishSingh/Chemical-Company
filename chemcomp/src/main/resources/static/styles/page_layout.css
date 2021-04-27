@@ -3,11 +3,14 @@ CSS for all templates in page_layout dir
  */
 .container {
     width: auto;
-    max-width: 680px;
     padding: 0 15px;
 }
 
 .footer {
-    background-color: #f5f5f5;
     text-align: center;
+}
+
+#footerRibbon {
+    width: 100%;
+    background-color: black;
 }

@@ -1,6 +1,5 @@
 package com.ns.chemcomp.dao;
 
-import com.ns.chemcomp.dto.Category;
 import com.ns.chemcomp.dto.Product;
 
 import java.util.List;
@@ -33,10 +32,10 @@ public interface ProductDao {
     /**
      * Read all products from a given category
      *
-     * @param category {Category} well formed obj
+     * @param categoryId {int} a valid category id
      * @return {List} all products for a category
      */
-    List<Product> readProductsByCategory(Category category);
+    List<Product> readProductsByCategory(int categoryId);
 
     /**
      * Update a Product in db

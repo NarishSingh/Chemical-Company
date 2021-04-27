@@ -142,7 +142,7 @@ class ProductDaoTest {
         Product prod2 = pDao.createProduct(p2);
         Product prod3 = pDao.createProduct(p3);
 
-        List<Product> alcohols = pDao.readProductsByCategory(c1);
+        List<Product> alcohols = pDao.readProductsByCategory(c1.getCategoryId());
 
         assertNotNull(alcohols);
         assertEquals(1, alcohols.size());
