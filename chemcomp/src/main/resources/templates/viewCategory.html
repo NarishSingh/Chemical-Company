@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page_layout/layout.html}">
+<head>
+    <title>Products by Category</title>
+
+    <link rel="stylesheet" href="styles/categories.css">
+</head>
+<body>
+<div layout:fragment="main">
+    <h2 th:text="${'Product List - ' + category.categoryName}"></h2>
+</div>
+</body>
+</html>
