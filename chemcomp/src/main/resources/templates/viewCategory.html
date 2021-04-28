@@ -16,8 +16,7 @@
                 <img th:src="${p.photoFilename}" alt="product image" style="max-height: 200px">
             </div>
             <div class="col-sm-9">
-                <!--TODO add link to viewProduct-->
-                <h3><a href="#" th:text="${p.name}"></a></h3>
+                <h3><a th:href="@{viewProduct(id=${p.productId})}" th:text="${p.name}"></a></h3>
                 <p th:text="${p.massVolume + p.measurement}"></p>
                 <p th:text="${'$' + p.unitCost}"></p>
             </div>

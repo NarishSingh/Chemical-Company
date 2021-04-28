@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService userDetails; //FIXME never seen this autowire error before
+    UserDetailsService userDetails;
 
     /**
      * Ensure passwords are coded before written to db

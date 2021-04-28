@@ -1,0 +1,29 @@
+package com.ns.chemcomp.controller;
+
+import com.ns.chemcomp.dao.CategoryDao;
+import com.ns.chemcomp.dao.ProductDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Controller
+public class ProductController {
+
+    @Autowired
+    CategoryDao cDao;
+    @Autowired
+    ProductDao pDao;
+
+    @GetMapping({"/products"})
+    public String displayProductsPage(Model model) {
+        return "";
+    }
+
+    @GetMapping({"/viewProduct"})
+    public String displayViewProductPage(Model model, HttpServletRequest request) {
+        return "";
+    }
+}
