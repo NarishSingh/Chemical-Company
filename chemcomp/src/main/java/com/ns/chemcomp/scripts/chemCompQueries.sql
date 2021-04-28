@@ -18,7 +18,7 @@ SELECT *
 FROM category;
 
 INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename)
-    VALUE ('Alcohol 100%', 'Ethanol', 1.00, 'pt', 20.00, 0.05, null);
+    VALUE ('Alcohol 100%', 'Ethanol', 1.00, 'pt', 20.00, 0.05, 'chemical.jpg');
 INSERT INTO productCategory (productId, categoryId)
         (SELECT LAST_INSERT_ID(), 7);
 

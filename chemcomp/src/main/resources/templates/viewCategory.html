@@ -9,6 +9,20 @@
 <body>
 <div layout:fragment="main">
     <h2 th:text="${'Product List - ' + category.categoryName}"></h2>
+    <div class="container">
+        <div class="row" th:each="p : ${products}">
+            <div class="col-sm-3" th:if="${p.photoFilename != ''}">
+                <!--FIXME image not found-->
+                <img th:src="${p.photoFilename}" alt="product image" style="max-height: 200px">
+            </div>
+            <div class="col-sm-9">
+                <!--TODO add link to viewProduct-->
+                <h3><a href="#" th:text="${p.name}"></a></h3>
+                <p th:text="${p.massVolume + p.measurement}"></p>
+                <p th:text="${'$' + p.unitCost}"></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
