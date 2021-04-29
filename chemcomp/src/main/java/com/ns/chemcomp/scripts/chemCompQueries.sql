@@ -19,10 +19,10 @@ FROM category;
 
 DELETE
 FROM productcategory
-WHERE productId = 4;
+WHERE productId = 1;
 DELETE
 FROM product
-WHERE productId = 4;
+WHERE productId = 1;
 
 INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename)
     VALUE ('Alcohol 100%', 'Ethanol', 1.00, 'pt', 20.00, 0.05, null);

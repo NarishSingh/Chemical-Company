@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Header</title>
 </head>
@@ -13,9 +14,7 @@
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="products">Products</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="products">Products</a></li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="categories" id="category-dropdown" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
@@ -29,9 +28,8 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login">Login</a>
-            </li>
+            <li><a class="nav-link" href="admin" sec:authorize="hasRole('ROLE_ADMIN')">Manage</a></li>
+            <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
