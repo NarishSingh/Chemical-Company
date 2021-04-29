@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page_layout/layout.html}">
 <head>
-    <meta charset="UTF-8">
     <title>Products</title>
+
+    <link rel="stylesheet" href="styles/products.css">
 </head>
 <body>
-
+<div layout:fragment="main">
+    <h2>Products</h2>
+    <ul class="list-group list-group-flush" th:each="p : ${products}">
+        <li class="list-group-item">
+            <p>
+                <a href="#" th:href="@{viewProduct(id=${p.productId})}" th:text="${p.name}"></a>
+                <span th:text="${' | ' + p.chemicalName + ' - $' + p.unitCost + '/' + p.massVolume + p.measurement}"></span>
+            </p>
+        </li>
+    </ul>
+</div>
 </body>
 </html>
