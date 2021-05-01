@@ -13,7 +13,7 @@ CREATE TABLE user
 (
     userId        INT PRIMARY KEY AUTO_INCREMENT,
     username      VARCHAR(50) UNIQUE NOT NULL,
-    password      VARCHAR(50)        NOT NULL,
+    password      VARCHAR(100)       NOT NULL,
     enabled       BIT                NOT NULL,
     name          VARCHAR(50),
     phone         CHAR(13),
