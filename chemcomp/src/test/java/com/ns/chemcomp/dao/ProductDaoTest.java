@@ -86,7 +86,7 @@ class ProductDaoTest {
         p2.setCategory(c2);
 
         p3 = new Product();
-        p3.setName("Glycerol Reagant");
+        p3.setName("Glycerol Reagent");
         p3.setChemicalName("Glycerin");
         p3.setMassVolume(new BigDecimal("30.00").setScale(2, RoundingMode.HALF_UP));
         p3.setMeasurement("mL");

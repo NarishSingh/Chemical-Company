@@ -8,13 +8,26 @@
 </head>
 <body>
 <div layout:fragment="main">
-    <h2 th:text="${product.name}"></h2>
+    <h2 style="text-align: center" th:text="${product.name}"></h2>
     <div class="container">
-        <div class="row">
-            <div class="col-sm-3" th:if="${product.photoFilename != ''}">
+        <div class="row" th:if="${product.photoFilename != null}">
+            <div class="col-sm-3">
+                <!--TODO img not showing-->
                 <img th:src="${product.photoFilename}" alt="product image" style="max-width: 200px">
             </div>
             <div class="col-sm-9">
+                <p th:text="${product.name}"></p>
+                <p th:text="${product.chemicalName}"></p>
+                <p th:text="'Category - ' + ${product.getCategory().getCategoryName()}"></p>
+                <p th:text="${'Unit Cost - $' + product.unitCost}"></p>
+                <p th:text="${product.massVolume + ' ' + product.measurement}"></p>
+                <p th:text="${'Handling Cost - $' + product.handlingCost}"></p>
+            </div>
+
+            <!--TODO form POST - quantity textbox, integers only + buy/order button-->
+        </div>
+        <div class="container" th:unless="${product.photoFilename != null}">
+            <div class="col">
                 <p th:text="${product.name}"></p>
                 <p th:text="${product.chemicalName}"></p>
                 <p th:text="'Category - ' + ${product.getCategory().getCategoryName()}"></p>

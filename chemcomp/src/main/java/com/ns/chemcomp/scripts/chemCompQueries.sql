@@ -5,22 +5,39 @@ FROM category c
          JOIN productcategory p on c.categoryId = p.categoryId
 WHERE p.productId = 1;
 
-INSERT INTO category (categoryName)
-VALUES ('Acid'),
-       ('Solvent'),
-       ('Aqueous Solution'),
-       ('Reagant'),
-       ('Base'),
-       ('Buffer'),
-       ('Alcohols');
+DELETE
+FROM productcategory;
+DELETE
+FROM product;
+
+INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename)
+    VALUE ('Alcohol 100%', 'Ethanol', 1.00, 'pt', 20.00, 0.05,
+           'C:\\Users\\naris\\Documents\\Work\\TECHHIRE\\REPOSITORY\\Chemical-Company\\chemcomp\\src\\main\\resources\\static\\images\\uploads\\chemical.jpg');
+INSERT INTO productCategory (productId, categoryId)
+        (SELECT LAST_INSERT_ID(), 7);
+
+INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename)
+    VALUE ('Glycerol Reagent', 'Glycerin', 30.00, 'mL', 5.00, 0.25, null);
+INSERT INTO productCategory (productId, categoryId)
+        (SELECT LAST_INSERT_ID(), 4);
+
+SELECT *
+FROM product;
+
+DELETE
+FROM category;
+
+INSERT INTO category (categoryId, categoryName)
+VALUES (1, 'Acid'),
+       (2, 'Solvent'),
+       (3, 'Aqueous Solution'),
+       (4, 'Reagent'),
+       (5, 'Base'),
+       (6, 'Buffer'),
+       (7, 'Alcohols');
 
 SELECT *
 FROM category;
-
-INSERT INTO product (name, chemicalName, massVolume, measurement, unitCost, handlingCost, photoFilename)
-    VALUE ('Alcohol 100%', 'Ethanol', 1.00, 'pt', 20.00, 0.05, null);
-INSERT INTO productCategory (productId, categoryId)
-        (SELECT LAST_INSERT_ID(), 7);
 
 SELECT p.*, c.categoryName
 FROM product p

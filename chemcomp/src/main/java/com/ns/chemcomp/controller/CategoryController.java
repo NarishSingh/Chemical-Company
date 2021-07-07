@@ -49,6 +49,7 @@ public class CategoryController {
      */
     @GetMapping({"/viewCategory"})
     public String displayViewCategoryPage(Model model, HttpServletRequest request) {
+        model.addAttribute("categories", cDao.readAllCategories());
         int categoryId = Integer.parseInt(request.getParameter("id"));
 
         model.addAttribute("category", cDao.readCategoryById(categoryId));

@@ -19,12 +19,14 @@ public class ProductController {
 
     @GetMapping({"/products"})
     public String displayProductsPage(Model model) {
+        model.addAttribute("categories", cDao.readAllCategories());
         model.addAttribute("products", pDao.readAllProducts());
         return "products";
     }
 
     @GetMapping({"/viewProduct"})
     public String displayViewProductPage(Model model, HttpServletRequest request) {
+        model.addAttribute("categories", cDao.readAllCategories());
         model.addAttribute("product", pDao.readProductById(Integer.parseInt(request.getParameter("id"))));
         return "viewProduct";
     }

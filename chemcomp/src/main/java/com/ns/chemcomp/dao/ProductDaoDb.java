@@ -49,7 +49,7 @@ public class ProductDaoDb implements ProductDao {
             String readId = "SELECT * FROM product " +
                     "WHERE productId = ?;";
             Product product = jdbc.queryForObject(readId, new ProductMapper(), id);
-            product.setCategory(readCategoryForProduct(id));
+            if (product != null) product.setCategory(readCategoryForProduct(id));
 
             return product;
         } catch (DataAccessException e) {
