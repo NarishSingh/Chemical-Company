@@ -1,173 +1,169 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
-<div layout:fragment="main">
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <!--sidebar, flexible-->
-                <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="admin">
-                                <i class="fas fa-home"></i>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#add-user">
-                                <i class="fas fa-plus-square"></i>
-                                Add New Account
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#user-data-table">
-                                <i class="fas fa-user-cog"></i>
-                                Admins/Buyers
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="createPost">
-                                <i class="fas fa-pen-nib"></i>
-                                New Item
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="postManagement">
-                                <i class="fas fa-book"></i>
-                                Inventory Management
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <!--sidebar, flexible-->
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="admin">
+                            <i class="fas fa-home"></i>Dashboard<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#add-user">
+                            <i class="fas fa-plus-square"></i>Add New Account
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user-data-table">
+                            <i class="fas fa-user-cog"></i>Admins/Buyers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="createPost">
+                            <i class="fas fa-pen-nib"></i>New Item
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="postManagement">
+                            <i class="fas fa-book"></i>Inventory Management
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-            <!--Data-->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <!--add user form-->
-                <h2 id="add-user">Create Account</h2>
-                <!--Error box-->
-                <div class="d-flex text-center" th:if="${!errors.isEmpty()}">
-                    <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">Error
-                        message</p>
-                </div>
-                <div class="d-flex" id="add-user-form">
-                    <form action="addUser" class="form-horizontal" method="post" enctype="multipart/form-data">
-                        <input type="hidden" class="form-control" th:name="${_csrf.parameterName}"
-                               th:value="${_csrf.token}">
+        <!--Data-->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <!--add user form-->
+            <h2 id="add-user">Create Account</h2>
+            <!--Error box-->
+            <div class="d-flex text-center" th:if="${!errors.isEmpty()}">
+                <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">
+                    Error message
+                </p>
+            </div>
+            <div class="d-flex" id="add-user-form">
+                <form action="addUser" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
 
-                        <div class="form-group row">
-                            <label for="username" class="col-lg-3 col-sm-12 col-form-label">Username:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <input type="text" class="form-control" id="username" name="username" required
-                                       autofocus>
-                            </div>
+                    <div class="form-group row">
+                        <label for="username" class="col-lg-3 col-sm-12 col-form-label">Username:</label>
+                        <div class="col-lg-9 col-sm-12">
+                            <input type="text" class="form-control" id="username" name="username" required autofocus>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-lg-3 col-sm-12 col-form-label">Password:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-lg-3 col-sm-12 col-form-label">Password:</label>
+                        <div class="col-lg-9 col-sm-12">
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="firstName" class="col-lg-3 col-sm-12 col-form-label">First Name:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <input type="text" class="form-control" id="firstName" name="firstName">
-                            </div>
+                    <div class="form-group row">
+                        <label for="name" class="col-lg-3 col-sm-12 col-form-label">Full Name:</label>
+                        <div class="col-lg-9 col-sm-12">
+                            <input type="text" class="form-control" id="name" name="name">
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="lastName" class="col-lg-3 col-sm-12 col-form-label">Last Name:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <input type="text" class="form-control" id="lastName" name="lastName">
-                            </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-lg-3 col-sm-12 col-form-label">E-mail:</label>
+                        <div class="col-lg-9 col-sm-12">
+                            <input type="text" class="form-control" id="email" name="email">
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-lg-3 col-sm-12 col-form-label">E-mail:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <input type="text" class="form-control" id="email" name="email">
-                            </div>
+                    <div class="form-group row">
+                        <label for="role" class="col-lg-3 col-sm-12 col-form-label">Role:</label>
+                        <div class="col-lg-9 col-sm-12">
+                            <select name="roleId" id="role" class="form-control">
+                                <option th:each="role: ${roles}" th:value="${role.roleId}" th:text="${role.role}">
+                                    role
+                                </option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="role" class="col-lg-3 col-sm-12 col-form-label">Role:</label>
-                            <div class="col-lg-9 col-sm-12">
-                                <select name="roleId" id="role" class="form-control">
-                                    <option th:each="role: ${roles}" th:value="${role.id}" th:text="${role.role}">role
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+                    <button type="submit" class="btn btn-outline-dark">Add Account</button>
+                </form>
+            </div>
 
-                        <!--image upload-->
-                        <div class="form-group custom-file">
-                            <input type="file" class="custom-file-input" name="file" id="file"
-                                   onchange="$('#file-label').html(this.files[0].name)">
-                            <label for="file" class="custom-file-label" id="file-label">Upload Profile
-                                Picture...</label>
-                        </div>
+            <hr/>
 
-                        <button type="submit" class="btn btn-outline-dark">Add Account</button>
-                    </form>
-                </div>
+            <!--User Table-->
+            <h2>Admins/Buyers</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm" id="user-data-table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>Role</th>
+                        <th>Enabled?</th>
+                        <th></th> <!--Edit-->
+                        <th></th> <!--Delete-->
+                    </tr>
+                    </thead>
 
-                <hr/>
-
-                <!--User Table-->
-                <h2>Admin/Creators</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm" id="user-data-table">
-                        <thead class="thead-dark">
+                    <tbody>
+                    <div th:each="user : ${users}">
                         <tr>
-                            <th>Username</th>
-                            <th>Name</th>
-                            <th>E-mail</th>
-                            <th>Picture</th>
-                            <th>Role</th>
-                            <th>Enabled?</th>
-                            <th></th> <!--Edit-->
-                            <th></th> <!--Delete-->
+                            <td th:text="${user.username}">username</td>
+                            <td th:text="${user.name}">name</td>
+                            <td th:text="${user.phone}">phone</td>
+                            <td th:text="${user.email}">email</td>
+                            <td th:text="${user.address}">address</td>
+                            <td>
+                                <div th:each="currentRole : ${user.roles}">
+                                    <span th:text="${currentRole.role}"></span>
+                                </div>
+                            </td>
+                            <td th:if="${user.enabled}"><i class="fas fa-user-check"></i></td>
+                            <td th:unless="${user.enabled}"><i class="fas fa-user-times"></i></td>
+                            <td>
+                                <a href="#" th:href="@{/editUser(id=${user.userId})}">
+                                    <i class="fas fa-user-edit"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" th:href="@{/deleteUser(id=${user.userId})}"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
-                        </thead>
-
-                        <tbody>
-                        <div th:each="user : ${users}">
-                            <tr>
-                                <td th:text="${user.username}">username</td>
-                                <td th:text="${user.firstName + ' ' + user.lastName}">name</td>
-                                <td th:text="${user.email}">email</td>
-                                <td><img th:src="${user.photoFilename}"
-                                         style="height: 50px; padding: 0; margin: 0 auto;" alt=""></td>
-                                <td>
-                                    <div th:each="currentRole : ${user.roles}">
-                                        <span th:text="${currentRole.role}"></span>
-                                        <!--only one role, until regular users are implemented-->
-                                    </div>
-                                </td>
-                                <td th:text="${user.enabled}">enabled</td>
-                                <td>
-                                    <a href="#" th:href="@{/editUser(id=${user.id})}"><i
-                                            class="fas fa-user-edit"></i></a>
-                                </td>
-                                <td>
-                                    <a href="#" th:href="@{/deleteUser(id=${user.id})}"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        </div>
-                        </tbody>
-                    </table>
-                </div>
-            </main>
-        </div>
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 </div>
+
+<!--CDN's-->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/33e502fc2c.js" crossorigin="anonymous"></script>
 </body>
 </html>
