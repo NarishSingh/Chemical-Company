@@ -67,7 +67,6 @@ class UserDaoTest {
         adm.setPhone("555-555-5555");
         adm.setEmail("theAdmin@mail.com");
         adm.setAddress("123-45 678th St");
-        adm.setPhotoFilename(null);
         adm.setRoles(adminRoles);
 
         u1 = new User();
@@ -78,7 +77,6 @@ class UserDaoTest {
         u1.setPhone("555-555-5555");
         u1.setEmail("user01@mail.com");
         u1.setAddress("987-65 321st ave");
-        u1.setPhotoFilename(null);
         u1.setRoles(userRoles);
 
         u2 = new User();
@@ -89,7 +87,6 @@ class UserDaoTest {
         u2.setPhone("555-555-5555");
         u2.setEmail("user02@mail.com");
         u2.setAddress("468-32 123th Blvd");
-        u2.setPhotoFilename(null);
         u2.setRoles(userRoles);
     }
 

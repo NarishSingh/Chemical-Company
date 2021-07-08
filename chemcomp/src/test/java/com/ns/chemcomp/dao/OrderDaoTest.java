@@ -112,7 +112,6 @@ class OrderDaoTest {
         adm.setPhone("555-555-5555");
         adm.setEmail("theAdmin@mail.com");
         adm.setAddress("123-45 678th St");
-        adm.setPhotoFilename(null);
         adm.setRoles(adminRoles);
         adminAcc = uDao.createUser(adm);
 
@@ -124,7 +123,6 @@ class OrderDaoTest {
         u1.setPhone("555-555-5555");
         u1.setEmail("user01@mail.com");
         u1.setAddress("987-65 321st ave");
-        u1.setPhotoFilename(null);
         u1.setRoles(userRoles);
         userAcc1 = uDao.createUser(u1);
 
@@ -136,7 +134,6 @@ class OrderDaoTest {
         u2.setPhone("555-555-5555");
         u2.setEmail("user02@mail.com");
         u2.setAddress("468-32 123th Blvd");
-        u2.setPhotoFilename(null);
         u2.setRoles(userRoles);
         userAcc2 = uDao.createUser(u2);
 
@@ -197,7 +194,7 @@ class OrderDaoTest {
         lye = pDao.createProduct(p2);
 
         Product p3 = new Product();
-        p3.setName("Glycerol Reagant");
+        p3.setName("Glycerol Reagent");
         p3.setChemicalName("Glycerin");
         p3.setMassVolume(new BigDecimal("30.00").setScale(2, RoundingMode.HALF_UP));
         p3.setMeasurement("ml");

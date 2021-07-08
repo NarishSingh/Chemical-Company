@@ -25,8 +25,8 @@ public class UserDaoDb implements UserDao {
     @Override
     @Transactional
     public User createUser(User user) {
-        String insertQuery = "INSERT INTO user (username, password, enabled, name, phone, email, address, photoFilename) " +
-                "VALUES(?,?,?,?,?,?,?,?);";
+        String insertQuery = "INSERT INTO user (username, password, enabled, name, phone, email, address) " +
+                "VALUES(?,?,?,?,?,?,?);";
         jdbc.update(insertQuery,
                 user.getUsername(),
                 user.getPassword(),
@@ -34,8 +34,7 @@ public class UserDaoDb implements UserDao {
                 user.getName(),
                 user.getPhone(),
                 user.getEmail(),
-                user.getAddress(),
-                user.getPhotoFilename());
+                user.getAddress());
 
         //grab id
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
@@ -124,8 +123,7 @@ public class UserDaoDb implements UserDao {
                 "name = ?, " +
                 "phone = ?, " +
                 "email = ?, " +
-                "address = ?, " +
-                "photoFilename = ? " +
+                "address = ? " +
                 "WHERE userId = ?;";
         int updated = jdbc.update(updateQuery,
                 user.getUsername(),
@@ -135,7 +133,6 @@ public class UserDaoDb implements UserDao {
                 user.getPhone(),
                 user.getEmail(),
                 user.getAddress(),
-                user.getPhotoFilename(),
                 user.getUserId());
 
         if (updated == 1) {
@@ -232,7 +229,6 @@ public class UserDaoDb implements UserDao {
             u.setPhone(rs.getString("phone"));
             u.setEmail(rs.getString("email"));
             u.setAddress(rs.getString("address"));
-            u.setPhotoFilename(rs.getString("photoFilename"));
 
             return u;
         }

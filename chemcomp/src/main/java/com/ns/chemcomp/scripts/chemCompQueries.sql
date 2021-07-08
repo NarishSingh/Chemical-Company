@@ -6,6 +6,18 @@ FROM category c
 WHERE p.productId = 1;
 
 DELETE
+FROM category;
+
+INSERT INTO category (categoryId, categoryName)
+VALUES (1, 'Acid'),
+       (2, 'Solvent'),
+       (3, 'Aqueous Solution'),
+       (4, 'Reagent'),
+       (5, 'Base'),
+       (6, 'Buffer'),
+       (7, 'Alcohols');
+
+DELETE
 FROM productcategory;
 DELETE
 FROM product;
@@ -24,18 +36,6 @@ INSERT INTO productCategory (productId, categoryId)
 SELECT *
 FROM product;
 
-DELETE
-FROM category;
-
-INSERT INTO category (categoryId, categoryName)
-VALUES (1, 'Acid'),
-       (2, 'Solvent'),
-       (3, 'Aqueous Solution'),
-       (4, 'Reagent'),
-       (5, 'Base'),
-       (6, 'Buffer'),
-       (7, 'Alcohols');
-
 SELECT *
 FROM category;
 
@@ -48,15 +48,15 @@ INSERT INTO role (role)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_BUYER');
 
-INSERT INTO user (username, password, enabled, name, phone, email, address, photoFilename)
+INSERT INTO user (username, password, enabled, name, phone, email, address)
 VALUES ('Narish', 'password', true, 'Narish Singh', '555-555-5555', 'test@mail.com',
-        '123-45 Test st., New York, NY, 99999', null);
+        '123-45 Test st., New York, NY, 99999');
 
 INSERT INTO userRole (roleId, userId)
 VALUES (1, 1);
 
 UPDATE user
-SET password = '$2a$10$GdHarNUmmat.d.AAAV/N6e42tKrFWFHhBG69EuCt2OiTdgv.sMaou'
+SET password = '$2a$10$YeXWyTFmv5I5rtIRjQOfUevizmPZRo07rz42gGM1dPqUbQmv4yRsa'
 WHERE userId = 1;
 
 SELECT *

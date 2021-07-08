@@ -37,9 +37,6 @@ public class User {
     @Size(max = 50, message = "Address cannot exceed 50 chars")
     private String address;
 
-    @Size(max = 255, message = "Filename cannot exceed 255 chars")
-    private String photoFilename;
-
     @Valid
     Set<Role> roles;
 
@@ -107,14 +104,6 @@ public class User {
         this.address = address;
     }
 
-    public String getPhotoFilename() {
-        return photoFilename;
-    }
-
-    public void setPhotoFilename(String photoFilename) {
-        this.photoFilename = photoFilename;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -128,35 +117,29 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getUserId() == user.getUserId() &&
-                isEnabled() == user.isEnabled() &&
-                getUsername().equals(user.getUsername()) &&
-                getPassword().equals(user.getPassword()) &&
-                Objects.equals(getName(), user.getName()) &&
-                Objects.equals(getPhone(), user.getPhone()) &&
-                getEmail().equals(user.getEmail()) &&
-                getAddress().equals(user.getAddress()) &&
-                Objects.equals(getPhotoFilename(), user.getPhotoFilename()) &&
-                getRoles().equals(user.getRoles());
+        return getUserId() == user.getUserId() && isEnabled() == user.isEnabled() && getUsername().equals(user.getUsername())
+                && getPassword().equals(user.getPassword()) && Objects.equals(getName(), user.getName())
+                && Objects.equals(getPhone(), user.getPhone()) && getEmail().equals(user.getEmail())
+                && getAddress().equals(user.getAddress()) && getRoles().equals(user.getRoles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(), getAddress(), getPhotoFilename(), getRoles());
+        return Objects.hash(getUserId(), getUsername(), getPassword(), isEnabled(), getName(), getPhone(), getEmail(),
+                getAddress(), getRoles());
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + userId +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", Address='" + address + '\'' +
-                ", photoFilename='" + photoFilename + '\'' +
+                ", address='" + address + '\'' +
                 ", roles=" + roles +
                 '}';
     }

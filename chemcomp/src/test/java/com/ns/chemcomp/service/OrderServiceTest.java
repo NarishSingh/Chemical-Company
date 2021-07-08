@@ -41,11 +41,11 @@ class OrderServiceTest {
     OrderService serv;
 
     static Role adminRole;
-    static Role userRole;
+    static Role buyerRole;
 
     static User adminAcc;
-    static User userAcc1;
-    static User userAcc2;
+    static User buyerAcc1;
+    static User buyerAcc2;
 
     static State nyState;
     static State caState;
@@ -94,15 +94,15 @@ class OrderServiceTest {
         /*Create dependent obj's*/
         //roles with lists
         Role r1 = new Role();
-        r1.setRole("ROLE_USER");
-        userRole = rDao.createRole(r1);
+        r1.setRole("ROLE_BUYER");
+        buyerRole = rDao.createRole(r1);
 
         Role r2 = new Role();
         r2.setRole("ROLE_ADMIN");
         adminRole = rDao.createRole(r2);
 
         Set<Role> adminRoles = new HashSet<>();
-        adminRoles.add(userRole);
+        adminRoles.add(buyerRole);
         adminRoles.add(adminRole);
 
         Set<Role> userRoles = new HashSet<>();
@@ -117,7 +117,6 @@ class OrderServiceTest {
         adm.setPhone("555-555-5555");
         adm.setEmail("theAdmin@mail.com");
         adm.setAddress("123-45 678th St");
-        adm.setPhotoFilename(null);
         adm.setRoles(adminRoles);
         adminAcc = uDao.createUser(adm);
 
@@ -129,9 +128,8 @@ class OrderServiceTest {
         u1.setPhone("555-555-5555");
         u1.setEmail("user01@mail.com");
         u1.setAddress("987-65 321st ave");
-        u1.setPhotoFilename(null);
         u1.setRoles(userRoles);
-        userAcc1 = uDao.createUser(u1);
+        buyerAcc1 = uDao.createUser(u1);
 
         User u2 = new User();
         u2.setUsername("TestUser2");
@@ -141,9 +139,8 @@ class OrderServiceTest {
         u2.setPhone("555-555-5555");
         u2.setEmail("user02@mail.com");
         u2.setAddress("468-32 123th Blvd");
-        u2.setPhotoFilename(null);
         u2.setRoles(userRoles);
-        userAcc2 = uDao.createUser(u2);
+        buyerAcc2 = uDao.createUser(u2);
 
         //States
         State s1 = new State();
@@ -202,7 +199,7 @@ class OrderServiceTest {
         lye = pDao.createProduct(p2);
 
         Product p3 = new Product();
-        p3.setName("Glycerol Reagant");
+        p3.setName("Glycerol Reagent");
         p3.setChemicalName("Glycerin");
         p3.setMassVolume(new BigDecimal("30.00").setScale(2, RoundingMode.HALF_UP));
         p3.setMeasurement("ml");
@@ -214,12 +211,9 @@ class OrderServiceTest {
 
         /*setup Orders using partial ctor*/
         o1 = new Order(LocalDate.now(), 1, adminAcc, nyState, alcohol);
-
         o2 = new Order(LocalDate.now().plusMonths(1), 3, adminAcc, nyState, glycerol);
-
-        o3 = new Order(LocalDate.now(), 20, userAcc1, caState, lye);
-
-        o4 = new Order(LocalDate.now().plusWeeks(3), 100, userAcc2, flState, glycerol);
+        o3 = new Order(LocalDate.now(), 20, buyerAcc1, caState, lye);
+        o4 = new Order(LocalDate.now().plusWeeks(3), 100, buyerAcc2, flState, glycerol);
     }
 
     @AfterEach
@@ -258,10 +252,8 @@ class OrderServiceTest {
 
     @Test
     void readOrderByIdFail() {
-        final int badId = 0;
         Order order = serv.createOrder(o1);
-
-        Order notFromDao = serv.readOrderById(badId);
+        Order notFromDao = serv.readOrderById(0);
 
         assertNull(notFromDao);
         assertNotEquals(order, notFromDao);
@@ -279,7 +271,7 @@ class OrderServiceTest {
         List<Order> fromToday = new ArrayList<>();
         try {
             fromToday = serv.readOrdersByDate(testNow);
-        } catch (Exception e) {
+        } catch (NoOrdersOnDateException e) {
             fail("Valid date for read");
         }
 
@@ -473,6 +465,7 @@ class OrderServiceTest {
         assertEquals(4, original.size());
         assertNotEquals(original, afterDel);
         assertEquals(3, afterDel.size());
+        assertTrue(deleted);
         assertTrue(afterDel.contains(order1));
         assertTrue(afterDel.contains(order2));
         assertTrue(afterDel.contains(order3));
