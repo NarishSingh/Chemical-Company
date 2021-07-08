@@ -29,7 +29,7 @@
                 </div>
             </li>
             <li><a class="nav-link" href="admin" sec:authorize="hasRole('ROLE_ADMIN')">Manage</a></li>
-            <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="login" sec:authorize="!isAuthenticated()">Login</a></li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

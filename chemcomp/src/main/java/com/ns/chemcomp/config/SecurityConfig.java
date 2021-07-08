@@ -49,43 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //FIXME fill in rest of pages
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN") //admin control panel
-                .antMatchers("/", "/home", "/login").permitAll()
+                .antMatchers("/", "/home", "/login", "/products", "/categories", "/viewCategory", "/viewProduct").permitAll()
                 .antMatchers("/styles/**", "/js/**", "/fonts/**", "/images/**").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?login_error=1") //if login fails, go to this url
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/") //on log out, go to base page
-                .permitAll();
-
-
-        /*
-        http.authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN") //admin control panel
-                .antMatchers("/deletePost").hasRole("ADMIN")
-                .antMatchers("/deleteUser").hasRole("ADMIN")
-                .antMatchers("/editCategory").hasRole("ADMIN")
-                .antMatchers("/editPost").hasRole("ADMIN")
-                .antMatchers("/editUser").hasRole("ADMIN")
-                .antMatchers("/postManagement").hasRole("ADMIN")
-                .antMatchers("/createCategory").hasAnyRole("CREATOR", "ADMIN")
-                .antMatchers("/createPost").hasAnyRole("CREATOR", "ADMIN")
-                .antMatchers("/", "/home", "/login", "/blog", "/viewPost").permitAll()
-                .antMatchers("/styles/**", "/js/**", "/fonts/**", "/images/**").permitAll()
-                //login form submissions
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?login_error=1") //if login fails, go to this url
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/") //on log out, go to base page
-                .permitAll();
-
-         */
+                .formLogin().loginPage("/login").failureUrl("/login?login_error=1") //if login fails, go to this url.permitAll()
+                .and().logout().logoutSuccessUrl("/").permitAll();//on log out, go to base page
     }
 }
