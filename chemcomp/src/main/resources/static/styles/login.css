@@ -41,3 +41,16 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    color: red;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
