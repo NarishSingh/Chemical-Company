@@ -20,6 +20,12 @@ public class AdminController {
     UserDao uDao;
     Set<ConstraintViolation<User>> violations = new HashSet<>();
 
+    /**
+     * GET - load admin dashboard
+     *
+     * @param model contains users, roles, and validation errors
+     * @return load admin view
+     */
     @GetMapping({"/admin"})
     public String displayAdminPage(Model model) {
         model.addAttribute("roles", rDao.readAllRoles());

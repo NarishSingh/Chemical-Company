@@ -12,6 +12,12 @@ public class LoginController {
     @Autowired
     CategoryDao cDao;
 
+    /**
+     * GET - Load login page
+     *
+     * @param model holds list of static pages
+     * @return load login view
+     */
     @GetMapping({"/login"})
     public String displayLoginPage(Model model) {
         model.addAttribute("categories", cDao.readAllCategories());

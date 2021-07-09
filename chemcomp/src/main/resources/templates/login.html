@@ -16,14 +16,13 @@
 
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Please sign in</h1>
 
-        <label for="userEmail" class="sr-only">Email Address</label>
-        <input type="email" id="userEmail" class="form-control" placeholder="Email" required autofocus>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
 
         <label for="userPassword" class="sr-only">Password</label>
         <input type="password" id="userPassword" class="form-control" placeholder="Password" required>
 
-        <!--CSRF attack guard-->
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> <!--CSRF attack guard-->
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted" style="text-align:center;">Chemical Company</p>

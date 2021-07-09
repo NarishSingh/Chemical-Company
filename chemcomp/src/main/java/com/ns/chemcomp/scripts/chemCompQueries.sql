@@ -48,16 +48,21 @@ INSERT INTO role (role)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_BUYER');
 
+DELETE
+FROM userRole;
+DELETE
+FROM user;
+
 INSERT INTO user (username, password, enabled, name, phone, email, address)
 VALUES ('Narish', 'password', true, 'Narish Singh', '555-555-5555', 'test@mail.com',
         '123-45 Test st., New York, NY, 99999');
 
 INSERT INTO userRole (roleId, userId)
-VALUES (1, 1);
+VALUES (1, 2);
 
 UPDATE user
-SET password = '$2a$10$YeXWyTFmv5I5rtIRjQOfUevizmPZRo07rz42gGM1dPqUbQmv4yRsa'
-WHERE userId = 1;
+SET password = '$2a$10$msM5k49Jrj3BeEegAS7kh.J2kPIOkdiPZSnknXbjVgxuldDrlVlDi'
+WHERE userId = 2;
 
 SELECT *
 FROM role;
